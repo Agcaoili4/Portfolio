@@ -1,87 +1,80 @@
 # About
 
-A modern, responsive personal portfolio website built with React and Vite, later on adding .NET framework and PostgreSQL, showcasing my work as a software developer.
+A dark, Apple-inspired single-page portfolio built with React 19 and Vite, showcasing my work as a software developer. Designed for performance, interactivity, and a premium feel.
 
-## 🚀 Features
+## Features
 
-- **Responsive Design**: Optimized for all devices with a mobile-first approach
-- **Modern UI**: Clean, glassmorphism-inspired design with smooth animations
-- **Fast Performance**: Built with Vite for lightning-fast development and optimized builds
-- **Sections Include**:
-  - Hero section with introduction
-  - About section with skills and bio
-  - Featured projects showcase
-  - Contact form and social links
+- **Cinematic loading screen** — dual-ring orbital animation with an eased progress bar
+- **Interactive hero** — mouse-tracked aurora parallax, cursor spotlight, and typewriter role cycling
+- **Floating pill navbar** — active section detection via `getBoundingClientRect`, mobile hamburger menu
+- **5 full sections** — Home, About, Experience, Projects, Contact
+- **Scroll-reveal animations** — `IntersectionObserver`-driven fade + slide on every section
+- **Apple-style glassmorphism** — glass nav, glass cards, glass inputs throughout
+- **Project cards** — hover glow, gradient overlay, and animated arrow via React state
+- **Experience cards** — company logo/badge, achievements list, tech stack, hover lift effect
+- **Contact form** — client-side validation, loading spinner, success state
+- **Fully responsive** — mobile-first, CSS grid with `auto-fit` for fluid layouts
+- **Accessibility** — `prefers-reduced-motion` support, ARIA labels, semantic HTML
 
-## 🛠️ Technologies Used
+## Tech Stack
 
-- **Frontend**: React 19, Vite
-- **Styling**: Tailwind CSS
-- **Development Tools**: ESLint, PostCSS
-- **Skills Highlighted**: React, C#, PostgreSQL, TypeScript, Node.js, Tailwind CSS
+| Layer          | Technology                                                     |
+| -------------- | -------------------------------------------------------------- |
+| Frontend       | React 19, Vite 8                                               |
+| Styling        | Tailwind CSS v4 (`@tailwindcss/vite`)                          |
+| Fonts          | Archivo (headings), Space Grotesk (body)                       |
+| Animations     | CSS keyframes, `IntersectionObserver`, `requestAnimationFrame` |
+| Future backend | ASP.NET Core Web API, PostgreSQL                               |
 
-## 📋 Prerequisites
+## Sections
 
-- Node.js (version 16 or higher)
-- npm or yarn
+| Section        | Description                                                |
+| -------------- | ---------------------------------------------------------- |
+| **Home**       | Aurora hero with parallax, typewriter role, CTA buttons    |
+| **About**      | Photo placeholder, bio, stat cards, skill chips            |
+| **Experience** | Co-op, part-time, and volunteer roles as Apple-style cards |
+| **Projects**   | Enabled Talent Dashboard, Memory Battle, and more          |
+| **Contact**    | Validated form, GitHub & LinkedIn links, footer            |
 
-## 🚀 Getting Started
+## Getting Started
 
-1. **Clone the repository**
+```bash
+# Clone
+git clone https://github.com/Agcaoili4/Portfolio.git
+cd Portfolio
 
-   ```bash
-   git clone <your-repo-url>
-   cd portfolio
-   ```
+# Install
+npm install
 
-2. **Install dependencies**
+# Develop
+npm run dev
+# → http://localhost:5173
 
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-
-   ```bash
-   npm run dev
-   ```
-
-   The application will be available at `http://localhost:5173`
-
-## 📜 Available Scripts
-
-- `npm run dev` - Start the development server
-- `npm run build` - Build the project for production
-- `npm run preview` - Preview the production build locally
-- `npm run lint` - Run ESLint for code quality checks
-
-## 📁 Project Structure
-
-```
-portfolio/
-├── public/                 # Static assets
-├── src/
-│   ├── assets/            # Images and other assets
-│   ├── Components/        # React components
-│   │   ├── heroSection.jsx
-│   │   ├── aboutSection.jsx
-│   │   ├── projectsSection.jsx
-│   │   ├── contactSection.jsx
-│   │   └── ...
-│   ├── App.jsx
-│   └── main.jsx
-├── package.json
-├── vite.config.js
-└── README.md
+# Build
+npm run build
 ```
 
-## 🎨 Customization
+## Project Structure
 
-- Update personal information in the component files
-- Replace placeholder images and links
-- Modify the color scheme in Tailwind classes
-- Add or remove sections as needed
+```
+src/
+├── assets/                  # Company logos, images
+├── Components/
+│   ├── loadingScreen.jsx    # Orbital loading animation
+│   ├── topnav.jsx           # Floating pill navbar
+│   ├── heroSection.jsx      # Aurora + parallax + typewriter hero
+│   ├── aboutSection.jsx     # Bio, stats, skills
+│   ├── experienceSection.jsx # Work experience cards
+│   ├── projectsSection.jsx  # Project showcase cards
+│   ├── contactSection.jsx   # Contact form + socials
+│   └── homeLayout.jsx       # Root layout wrapper
+├── App.jsx                  # Loading gate + layout mount
+├── index.css                # Global styles, CSS animations, theme
+└── App.css
+```
 
-## 📞 Contact
+## Contact
 
-Feel free to reach out through the contact form on the website or connect via email @ ajagcaoili4@gmail.com
+- Email: ajagcaoili4@gmail.com
+- LinkedIn: [linkedin.com/in/jansen-agcaoili](https://www.linkedin.com/in/jansen-agcaoili/)
+- GitHub: [github.com/Agcaoili4](https://github.com/Agcaoili4)

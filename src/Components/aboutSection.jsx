@@ -61,7 +61,7 @@ export const AboutSection = () => {
               }}
               aria-label="Profile photo placeholder"
             >
-              {/* Replace with <img src="..." alt="Jansen" /> */}
+              {/* Rermember to replace with picture */}
               <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(79,70,229,0.4)" strokeWidth="1.2" aria-hidden="true">
                 <circle cx="12" cy="8" r="4" />
                 <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />

@@ -72,7 +72,7 @@ export const ContactSection = () => {
       {/* Ambient glow */}
       <div className="glow-blob w-[500px] h-[500px] opacity-10 bg-indigo-600 bottom-0 right-0 translate-x-1/4 translate-y-1/4" />
 
-      {/* Centered content wrapper — inline style guarantees centering regardless of Tailwind purge */}
+      {/* Centered content wrapper */}
       <div
         ref={contentRef}
         className="reveal"

@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 
 export const LoadingScreen = ({ onDone }) => {
-  const [phase, setPhase] = useState('in'); // 'in' | 'exit'
+  const [phase, setPhase] = useState('in');
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    //Animate progress bar
     const start = performance.now();
     const duration = 2000;
 
@@ -17,7 +16,6 @@ export const LoadingScreen = ({ onDone }) => {
     };
     requestAnimationFrame(tick);
 
-    //Minimum display time + wait for page load
     const minDelay = new Promise((res) => setTimeout(res, 2200));
     const pageLoad = new Promise((res) => {
       if (document.readyState === 'complete') res();

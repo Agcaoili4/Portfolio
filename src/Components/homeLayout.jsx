@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { TopNav } from './topnav';
 import { HeroSection } from './heroSection';
 import { AboutSection } from './aboutSection';

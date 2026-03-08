@@ -9,10 +9,8 @@ export const TopNav = () => {
     const onScroll = () => {
       setScrolled(window.scrollY > 30);
 
-      // getBoundingClientRect is reliable regardless of DOM nesting/positioning
-      // Iterate bottom-up: first section whose top edge is at or above the trigger line wins
       const ids = ['contact', 'projects', 'experience', 'about', 'home'];
-      const trigger = window.innerHeight * 0.35; // 35% down the viewport
+      const trigger = window.innerHeight * 0.35;
 
       for (const id of ids) {
         const el = document.getElementById(id);
@@ -22,12 +20,10 @@ export const TopNav = () => {
         }
       }
 
-      // Nothing past trigger — default to home
       setActive('home');
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    // Run once on mount to set correct initial state
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -36,7 +32,6 @@ export const TopNav = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center px-4 pt-4">
-      {/* Floating pill nav — widened to max-w-3xl to fit 5 links comfortably */}
       <nav
         className={`glass-nav w-full rounded-2xl px-6 py-3 flex items-center justify-center transition-all duration-300 ${
           scrolled ? 'shadow-2xl shadow-black/50' : ''

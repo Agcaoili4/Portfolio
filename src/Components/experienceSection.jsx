@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import enabledTalent from '../assets/enabledTalent.webp';
+import affinityMentorship from '../assets/affinityMentorship.webp';
+import goodlife from '../assets/goodlife.png';
 
 const experiences = [
   {
@@ -21,21 +23,39 @@ const experiences = [
     image: enabledTalent,
   },
   {
-    company: 'Another Company',
-    initial: 'A',
-    role: 'Junior Developer',
-    type: 'Internship',
-    period: 'May 2023 – Dec 2023',
+    company: 'GoodLife Fitness',
+    role: 'Personal Trainer',
+    type: 'Part-time',
+    period: 'Mar 2025 - Present',
     description:
-      'Summarize what you worked on during this role. Mention the team size, tech environment, and any notable contributions you made.',
+      'Working on a professional environment together with a team of fitness experts to provide personalized training programs, dedicated to their needs and goals. ',
     achievements: [
-      'Built and shipped X feature from design to production',
-      'Reduced load time by Y% through optimization',
+      'Delivered structured personal training programs while maintaining strong client retention and satisfaction.',
+      'Maintained strong communication with clients and management while balancing professional responsibilities with being a software developer.',
+      'Evaluated training programs through goal analysis, progress tracking, and clear communication to improve client outcomes.',
     ],
-    tech: ['C#', '.NET', 'REST APIs', 'SQL Server'],
-    accentColor: 'rgba(16,185,129,0.1)',
-    accentGlow: 'rgba(16,185,129,0.22)',
-    initBg: 'linear-gradient(135deg, #10b981, #059669)',
+    tech: ['Client Interaction', 'Program Design', 'Fitness Assessment', 'Motivational Coaching'],
+    accentColor: 'rgba(255, 1, 1, 0.1)',
+    accentGlow: 'rgba(255, 57, 57, 0.22)',
+    initBg: 'linear-gradient(135deg, #ec5757, #ff0000)',
+    image: goodlife,
+  },
+  {
+    company: 'Affinity Mentorship Foundation',
+    role: 'Web Developer/UI/UX Designer',
+    type: 'Volunteer',
+    period: 'Sept 2024 - Feb 2025',
+    description:
+      'Redesign and organized the Affinity Mentorship Foundation website to enhance user experience and accessibility, resulting in a more engaging platform for connecting mentors and mentees.',
+    achievements: [
+      'Built and shipped Led 80% of website redesign using Figma, CSS, HTML, JavaScript, and Squarespace. feature from design to production',
+      'Improved site usability and navigation, resulting in positive feedback from board members and increased engagement.',
+    ],
+    tech: ['HTML', 'CSS', 'JavaScript', 'Squarespace'],
+    accentColor: 'rgba(229, 229, 229, 0.1)',
+    accentGlow: 'rgba(151, 151, 151, 0.22)',
+    initBg: 'linear-gradient(135deg, #d7d7d7, #a9abab)',
+    image: affinityMentorship,
   },
 ];
 
@@ -93,8 +113,8 @@ const ExperienceCard = ({ exp, index }) => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem' }}>
           {exp.image ? (
             <img
-              src={exp.enabledTalent}
-              alt={`${exp.EnabledTalent} logo`}
+              src={exp.image}
+              alt={`${exp.company} logo`}
               style={{
                 width: '2.75rem',
                 height: '2.75rem',

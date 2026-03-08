@@ -38,20 +38,14 @@ export const TopNav = () => {
     <header className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center px-4 pt-4">
       {/* Floating pill nav — widened to max-w-3xl to fit 5 links comfortably */}
       <nav
-        className={`glass-nav w-full rounded-2xl px-6 py-3 flex items-center justify-between transition-all duration-300 ${
+        className={`glass-nav w-full rounded-2xl px-6 py-3 flex items-center justify-center transition-all duration-300 ${
           scrolled ? 'shadow-2xl shadow-black/50' : ''
         }`}
         style={{ maxWidth: '820px' }}
       >
-        <span
-          className="font-bold text-white text-lg tracking-tight"
-          style={{ fontFamily: 'Archivo, sans-serif', flexShrink: 0 }}
-        >
-          Jansen
-        </span>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-6 ">
           {links.map((link) => (
             <a
               key={link}

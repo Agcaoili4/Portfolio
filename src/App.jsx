@@ -1,8 +1,17 @@
-import './App.css'
-import { HomeLayout } from './Components/homeLayout'
+import { useState } from 'react';
+import './App.css';
+import { HomeLayout } from './Components/homeLayout';
+import { LoadingScreen } from './Components/loadingScreen';
 
 function App() {
-  return <HomeLayout />
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <>
+      {!loaded && <LoadingScreen onDone={() => setLoaded(true)} />}
+      <HomeLayout />
+    </>
+  );
 }
 
-export default App
+export default App;

@@ -1,3 +1,4 @@
+//Adding Experience Section
 import { useEffect, useRef } from 'react';
 
 const skills = ['React', 'C#', 'PostgreSQL', 'TypeScript', 'Node.js', 'Tailwind CSS', '.NET', 'REST APIs'];
@@ -8,7 +9,7 @@ const stats = [
   { value: '8+', label: 'Technologies' },
 ];
 
-export const AboutSection = () => {
+export const ExperienceSection = () => {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -61,7 +62,7 @@ export const AboutSection = () => {
               }}
               aria-label="Profile photo placeholder"
             >
-              {/* Replace with <img src="..." alt="Jansen" /> */}
+              {/* Replace with <img src="..." alt="Jansen" /> when you have a photo */}
               <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(79,70,229,0.4)" strokeWidth="1.2" aria-hidden="true">
                 <circle cx="12" cy="8" r="4" />
                 <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />

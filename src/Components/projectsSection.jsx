@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const projects = [
   {
@@ -10,7 +10,7 @@ const projects = [
     name: 'E-commerce Platform',
     desc: 'Scalable full-stack e-commerce with real-time inventory, advanced search, and secure payment integration.',
     tech: ['React', 'Node.js', 'MongoDB'],
-    accent: 'from-indigo-500/10 to-purple-500/5',
+    accentColor: 'rgba(99,102,241,0.08)',
   },
   {
     icon: (
@@ -21,7 +21,7 @@ const projects = [
     name: 'Analytics Dashboard',
     desc: 'Comprehensive dashboard for tracking metrics across platforms with interactive data visualizations.',
     tech: ['Vue.js', 'Express', 'PostgreSQL'],
-    accent: 'from-emerald-500/10 to-teal-500/5',
+    accentColor: 'rgba(16,185,129,0.08)',
   },
   {
     icon: (
@@ -32,12 +32,13 @@ const projects = [
     name: 'Task Management App',
     desc: 'Intuitive productivity app with drag-and-drop Kanban boards, real-time collaboration, and automated reminders.',
     tech: ['React Native', 'Firebase', 'Tailwind'],
-    accent: 'from-rose-500/10 to-pink-500/5',
+    accentColor: 'rgba(244,63,94,0.08)',
   },
 ];
 
 const ProjectCard = ({ project, index }) => {
   const ref = useRef(null);
+  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -51,46 +52,120 @@ const ProjectCard = ({ project, index }) => {
   return (
     <div
       ref={ref}
-      className="reveal glass-card rounded-2xl p-6 flex flex-col gap-5 group relative overflow-hidden"
-      style={{ transitionDelay: `${index * 80}ms` }}
+      className="reveal"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        borderRadius: '1rem',
+        padding: '1.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1.25rem',
+        position: 'relative',
+        overflow: 'hidden',
+        cursor: 'pointer',
+        transitionDelay: `${index * 80}ms`,
+        background: 'rgba(255,255,255,0.03)',
+        border: '1px solid rgba(255,255,255,0.07)',
+        transition: 'border-color 0.3s ease, background 0.3s ease',
+        borderColor: hovered ? 'rgba(99,102,241,0.3)' : 'rgba(255,255,255,0.07)',
+      }}
     >
-      {/* Hover gradient */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${project.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none`} />
+      {/* Hover gradient overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: `radial-gradient(ellipse at top left, ${project.accentColor}, transparent 70%)`,
+          opacity: hovered ? 1 : 0,
+          transition: 'opacity 0.3s ease',
+          borderRadius: '1rem',
+          pointerEvents: 'none',
+        }}
+      />
 
       {/* Icon */}
-      <div className="w-11 h-11 rounded-xl bg-indigo-600/10 text-indigo-400 flex items-center justify-center relative z-10 group-hover:bg-indigo-600/15 transition-colors">
+      <div
+        style={{
+          width: '2.75rem',
+          height: '2.75rem',
+          borderRadius: '0.75rem',
+          background: hovered ? 'rgba(79,70,229,0.18)' : 'rgba(79,70,229,0.08)',
+          color: '#818cf8',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+          zIndex: 1,
+          transition: 'background 0.3s ease',
+        }}
+      >
         {project.icon}
       </div>
 
       {/* Content */}
-      <div className="flex flex-col gap-2 flex-1 relative z-10">
-        <h3
-          className="text-white font-bold text-xl leading-tight"
-          style={{ fontFamily: 'Archivo, sans-serif' }}
-        >
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1, position: 'relative', zIndex: 1 }}>
+        <h3 style={{ fontFamily: 'Archivo, sans-serif', fontWeight: 700, fontSize: '1.125rem', color: '#fff', lineHeight: 1.3 }}>
           {project.name}
         </h3>
-        <p className="text-slate-400 text-sm font-light leading-relaxed">{project.desc}</p>
+        <p style={{ color: '#94a3b8', fontSize: '0.875rem', fontWeight: 300, lineHeight: 1.6 }}>
+          {project.desc}
+        </p>
       </div>
 
       {/* Tech stack */}
-      <div className="flex flex-wrap gap-2 relative z-10">
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', position: 'relative', zIndex: 1 }}>
         {project.tech.map((t) => (
-          <span key={t} className="px-2.5 py-1 rounded-md text-xs font-medium bg-white/[0.07] text-slate-300 border border-white/[0.06]">
+          <span
+            key={t}
+            style={{
+              padding: '0.25rem 0.625rem',
+              borderRadius: '0.375rem',
+              fontSize: '0.75rem',
+              fontWeight: 500,
+              background: 'rgba(255,255,255,0.07)',
+              color: '#cbd5e1',
+              border: '1px solid rgba(255,255,255,0.06)',
+            }}
+          >
             {t}
           </span>
         ))}
       </div>
 
       {/* View link */}
-      <div className="flex justify-end mt-auto relative z-10">
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 'auto', position: 'relative', zIndex: 1 }}>
         <a
           href="#"
-          className="text-sm font-semibold text-slate-500 group-hover:text-indigo-400 transition-colors flex items-center gap-1.5 cursor-pointer"
+          style={{
+            fontSize: '0.875rem',
+            fontWeight: 600,
+            color: hovered ? '#818cf8' : '#64748b',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.375rem',
+            cursor: 'pointer',
+            transition: 'color 0.3s ease',
+            textDecoration: 'none',
+          }}
           aria-label={`View ${project.name}`}
         >
           View Project
-          <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform" aria-hidden="true">
+          <svg
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            viewBox="0 0 24 24"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+            style={{
+              transform: hovered ? 'translateX(3px)' : 'translateX(0)',
+              transition: 'transform 0.3s ease',
+            }}
+          >
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </a>
@@ -105,26 +180,40 @@ export const ProjectsSection = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) headerRef.current?.classList.add('visible'); },
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     );
     if (headerRef.current) observer.observe(headerRef.current);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="projects" className="py-32 px-6">
-      <div className="max-w-6xl mx-auto flex flex-col gap-16">
+    <section
+      id="projects"
+      className="w-full"
+      style={{ padding: '8rem 1.5rem' }}
+    >
+      <div style={{ maxWidth: '1152px', width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '4rem' }}>
 
         {/* Header */}
-        <div ref={headerRef} className="reveal flex flex-col items-center text-center gap-4">
+        <div
+          ref={headerRef}
+          className="reveal"
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1rem' }}
+        >
           <h2 className="section-title">Featured Projects</h2>
-          <p className="text-slate-400 text-lg font-light max-w-lg leading-relaxed">
+          <p style={{ color: '#94a3b8', fontSize: '1.125rem', fontWeight: 300, maxWidth: '32rem', lineHeight: 1.7 }}>
             A selection of my recent work, focused on scalable solutions and intuitive user experiences.
           </p>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* Responsive grid */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '1.25rem',
+          }}
+        >
           {projects.map((project, i) => (
             <ProjectCard key={project.name} project={project} index={i} />
           ))}

@@ -11,7 +11,7 @@ export const HeroSection = () => {
   return (
     <section
       id="home"
-      className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden"
+      className="relative w-full flex flex-col items-center justify-center min-h-screen overflow-hidden"
     >
       {/* ── Animated aurora background ── */}
       <div className="aurora-bg" aria-hidden="true">
@@ -29,10 +29,10 @@ export const HeroSection = () => {
         className="reveal relative z-10 flex flex-col items-center text-center gap-6 px-6 max-w-5xl w-full"
       >
         <p className="text-slate-500 text-xs font-semibold tracking-[0.28em] uppercase">
-          Software Developer
+         AJ - Software Developer
         </p>
         <h1 className="hero-name">
-          Jansen
+          WELCOME
         </h1>
 
         <p className="text-slate-400 text-lg md:text-xl font-light max-w-md leading-relaxed">

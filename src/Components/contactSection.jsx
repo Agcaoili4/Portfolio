@@ -23,8 +23,8 @@ const socials = [
 
 export const ContactSection = () => {
   const sectionRef = useRef(null);
-  const [visible, setVisible] = useState(false);
-  const [status, setStatus] = useState('idle'); // idle | sending | sent | error
+  const contentRef = useRef(null);
+  const [status, setStatus] = useState('idle');
   const [fields, setFields] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
 
@@ -32,11 +32,11 @@ export const ContactSection = () => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setVisible(true);
+          contentRef.current?.classList.add('visible');
           observer.disconnect();
         }
       },
-      { threshold: 0.12 }
+      { threshold: 0.1 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
@@ -57,43 +57,48 @@ export const ContactSection = () => {
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setErrors({});
     setStatus('sending');
-
-    // Simulate async — swap this out for your C# API call later
     await new Promise((r) => setTimeout(r, 1200));
     setStatus('sent');
     setFields({ name: '', email: '', message: '' });
   };
 
-  const revealClass = () =>
-    `transition-all duration-500 ease-out ${
-      visible
-        ? 'opacity-100 translate-y-0'
-        : 'opacity-0 translate-y-6'
-    }`;
-
-  const revealStyle = (delay = 0) => ({ transitionDelay: visible ? `${delay}ms` : '0ms' });
-
   return (
-    <section id="contact" ref={sectionRef} className="py-32 px-6 relative overflow-hidden">
+    <section
+      id="contact"
+      ref={sectionRef}
+      className="w-full relative overflow-hidden"
+      style={{ padding: '8rem 1.5rem' }}
+    >
       {/* Ambient glow */}
       <div className="glow-blob w-[500px] h-[500px] opacity-10 bg-indigo-600 bottom-0 right-0 translate-x-1/4 translate-y-1/4" />
 
-      <div className="max-w-xl mx-auto flex flex-col items-center gap-10 relative z-10">
-
+      {/* Centered content wrapper — inline style guarantees centering regardless of Tailwind purge */}
+      <div
+        ref={contentRef}
+        className="reveal"
+        style={{
+          maxWidth: '640px',
+          width: '100%',
+          margin: '0 auto',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '2.5rem',
+          position: 'relative',
+          zIndex: 10,
+        }}
+      >
         {/* Heading */}
-        <div className={`text-center flex flex-col gap-3 ${revealClass()}`} style={revealStyle(0)}>
+        <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           <h2 className="section-title">Get in Touch</h2>
           <p className="text-slate-400 font-light leading-relaxed">
             Have a project in mind or just want to say hello? My inbox is open.
           </p>
         </div>
 
-        {/* Form */}
+        {/* Form / Success state */}
         {status === 'sent' ? (
-          <div
-            className={`w-full glass-card rounded-2xl p-10 flex flex-col items-center gap-4 text-center ${revealClass()}`}
-            style={revealStyle(80)}
-          >
+          <div className="w-full glass-card rounded-2xl p-10 flex flex-col items-center gap-4 text-center">
             <div className="w-12 h-12 rounded-full bg-green-500/10 text-green-400 flex items-center justify-center">
               <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 13l4 4L19 7" />
@@ -101,22 +106,13 @@ export const ContactSection = () => {
             </div>
             <p className="text-white font-semibold text-lg" style={{ fontFamily: 'Archivo, sans-serif' }}>Message Sent!</p>
             <p className="text-slate-400 text-sm">Thanks for reaching out — I'll get back to you soon.</p>
-            <button
-              onClick={() => setStatus('idle')}
-              className="text-indigo-400 text-sm font-medium hover:text-indigo-300 transition-colors cursor-pointer mt-1"
-            >
+            <button onClick={() => setStatus('idle')} className="text-indigo-400 text-sm font-medium hover:text-indigo-300 transition-colors cursor-pointer mt-1">
               Send another
             </button>
           </div>
         ) : (
-          <form
-            className={`w-full flex flex-col gap-4 ${revealClass()}`}
-            style={revealStyle(80)}
-            onSubmit={handleSubmit}
-            noValidate
-          >
+          <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
             <div className="flex flex-col sm:flex-row gap-4">
-              {/* Name */}
               <div className="flex flex-col gap-1.5 flex-1">
                 <label htmlFor="contact-name" className="text-slate-400 text-sm font-medium">Name</label>
                 <input
@@ -125,15 +121,14 @@ export const ContactSection = () => {
                   placeholder="Your Name"
                   value={fields.name}
                   onChange={(e) => setFields((f) => ({ ...f, name: e.target.value }))}
-                  className={`glass-input rounded-xl px-4 h-12 w-full ${errors.name ? 'border-red-500/60' : ''}`}
+                  className="glass-input rounded-xl px-4 w-full"
+                  style={{ height: '3rem', borderColor: errors.name ? 'rgba(239,68,68,0.6)' : undefined }}
                   autoComplete="name"
                   aria-invalid={!!errors.name}
-                  aria-describedby={errors.name ? 'err-name' : undefined}
                 />
-                {errors.name && <span id="err-name" className="text-red-400 text-xs">{errors.name}</span>}
+                {errors.name && <span className="text-red-400 text-xs">{errors.name}</span>}
               </div>
 
-              {/* Email */}
               <div className="flex flex-col gap-1.5 flex-1">
                 <label htmlFor="contact-email" className="text-slate-400 text-sm font-medium">Email</label>
                 <input
@@ -142,16 +137,15 @@ export const ContactSection = () => {
                   placeholder="your@email.com"
                   value={fields.email}
                   onChange={(e) => setFields((f) => ({ ...f, email: e.target.value }))}
-                  className={`glass-input rounded-xl px-4 h-12 w-full ${errors.email ? 'border-red-500/60' : ''}`}
+                  className="glass-input rounded-xl px-4 w-full"
+                  style={{ height: '3rem', borderColor: errors.email ? 'rgba(239,68,68,0.6)' : undefined }}
                   autoComplete="email"
                   aria-invalid={!!errors.email}
-                  aria-describedby={errors.email ? 'err-email' : undefined}
                 />
-                {errors.email && <span id="err-email" className="text-red-400 text-xs">{errors.email}</span>}
+                {errors.email && <span className="text-red-400 text-xs">{errors.email}</span>}
               </div>
             </div>
 
-            {/* Message */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="contact-message" className="text-slate-400 text-sm font-medium">Message</label>
               <textarea
@@ -160,17 +154,18 @@ export const ContactSection = () => {
                 rows={5}
                 value={fields.message}
                 onChange={(e) => setFields((f) => ({ ...f, message: e.target.value }))}
-                className={`glass-input rounded-xl px-4 py-3 w-full resize-none ${errors.message ? 'border-red-500/60' : ''}`}
+                className="glass-input rounded-xl px-4 py-3 w-full resize-none"
+                style={{ borderColor: errors.message ? 'rgba(239,68,68,0.6)' : undefined }}
                 aria-invalid={!!errors.message}
-                aria-describedby={errors.message ? 'err-message' : undefined}
               />
-              {errors.message && <span id="err-message" className="text-red-400 text-xs">{errors.message}</span>}
+              {errors.message && <span className="text-red-400 text-xs">{errors.message}</span>}
             </div>
 
             <button
               type="submit"
               disabled={status === 'sending'}
-              className="send-btn mt-1 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="send-btn flex items-center justify-center gap-2"
+              style={{ marginTop: '0.25rem', opacity: status === 'sending' ? 0.6 : 1, cursor: status === 'sending' ? 'not-allowed' : 'pointer' }}
               aria-busy={status === 'sending'}
             >
               {status === 'sending' ? (
@@ -180,35 +175,24 @@ export const ContactSection = () => {
                   </svg>
                   Sending…
                 </>
-              ) : (
-                'Send Message'
-              )}
+              ) : 'Send Message'}
             </button>
           </form>
         )}
 
         {/* Socials */}
-        <div className={`flex items-center gap-5 ${revealClass()}`} style={revealStyle(160)}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
           {socials.map(({ label, href, icon }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={label}
-              className="text-slate-500 hover:text-white transition-colors duration-200 cursor-pointer"
-            >
+            <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}
+              className="text-slate-500 hover:text-white transition-colors duration-200 cursor-pointer">
               {icon}
             </a>
           ))}
         </div>
 
         {/* Footer */}
-        <div
-          className={`w-full border-t border-white/[0.06] pt-6 text-center ${revealClass()}`}
-          style={revealStyle(200)}
-        >
-          <p className="text-slate-600 text-sm">© 2025 Jansen. All rights reserved.</p>
+        <div className="w-full border-t border-white/[0.06] pt-6 text-center">
+          <p className="text-slate-600 text-sm">© 2026. All rights reserved.</p>
         </div>
       </div>
     </section>

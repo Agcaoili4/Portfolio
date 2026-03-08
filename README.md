@@ -84,8 +84,4 @@ portfolio/
 
 ## 📞 Contact
 
-Feel free to reach out through the contact form on the website or connect via social media.
-
----
-
-Built with ❤️ using React and Vite
+Feel free to reach out through the contact form on the website or connect via email @ ajagcaoili4@gmail.com

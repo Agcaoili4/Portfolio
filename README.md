@@ -1,4 +1,4 @@
-#About
+# About
 
 A modern, responsive personal portfolio website built with React and Vite, later on adding .NET framework and PostgreSQL, showcasing my work as a software developer.
 

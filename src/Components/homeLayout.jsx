@@ -6,7 +6,7 @@ import { ContactSection } from './contactSection';
 
 export const HomeLayout = () => {
   return (
-    <div className="relative bg-[#0a0a0a] text-white min-h-screen">
+    <div className="relative w-full bg-[#0a0a0a] text-white min-h-screen">
       <TopNav />
       <HeroSection />
       <AboutSection />

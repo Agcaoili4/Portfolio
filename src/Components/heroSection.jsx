@@ -216,6 +216,7 @@ export const HeroSection = () => {
 
         {/* CTAs */}
         <div
+          className="hero-ctas"
           style={{
             display: 'flex',
             alignItems: 'center',

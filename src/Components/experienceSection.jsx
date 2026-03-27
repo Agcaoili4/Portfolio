@@ -75,7 +75,7 @@ const ExperienceCard = ({ exp, index }) => {
   return (
     <div
       ref={ref}
-      className="reveal"
+      className="reveal exp-card"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -309,7 +309,7 @@ export const ExperienceSection = () => {
   return (
     <section
       id="experience"
-      className="relative w-full overflow-hidden"
+      className="relative w-full overflow-hidden section-responsive"
       style={{ padding: '8rem 1.5rem' }}
     >
       {/* Ambient glow */}
@@ -349,6 +349,7 @@ export const ExperienceSection = () => {
 
         {/* Cards grid */}
         <div
+          className="exp-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',

@@ -66,7 +66,7 @@ export const ContactSection = () => {
     <section
       id="contact"
       ref={sectionRef}
-      className="w-full relative overflow-hidden"
+      className="w-full relative overflow-hidden section-responsive"
       style={{ padding: '8rem 1.5rem' }}
     >
       {/* Ambient glow */}
@@ -101,7 +101,7 @@ export const ContactSection = () => {
 
         {/* Form / Success state */}
         {status === 'sent' ? (
-          <div className="w-full glass-card rounded-2xl p-10 flex flex-col items-center gap-4 text-center">
+          <div className="w-full glass-card rounded-2xl p-10 flex flex-col items-center gap-4 text-center contact-success">
             <div
               className="w-12 h-12 rounded-full flex items-center justify-center"
               style={{ background: 'var(--success-bg)', color: 'var(--success-text)' }}

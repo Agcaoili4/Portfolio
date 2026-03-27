@@ -3,6 +3,8 @@ import './App.css';
 import { HomeLayout } from './Components/homeLayout';
 import { LoadingScreen } from './Components/loadingScreen';
 import { ThemeProvider } from './Components/ThemeContext';
+import { SmoothScroll } from './Components/SmoothScroll';
+import { ScrollProgress } from './Components/ScrollProgress';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -10,7 +12,10 @@ function App() {
   return (
     <ThemeProvider>
       {!loaded && <LoadingScreen onDone={() => setLoaded(true)} />}
-      <HomeLayout />
+      <SmoothScroll>
+        <ScrollProgress />
+        <HomeLayout />
+      </SmoothScroll>
     </ThemeProvider>
   );
 }

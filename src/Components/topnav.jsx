@@ -107,7 +107,7 @@ export const TopNav = () => {
         {/* Mobile hamburger — pushed to far right */}
         <button
           className="md:hidden transition-colors cursor-pointer"
-          style={{ color: 'var(--text-secondary)', marginLeft: 'auto', padding: '4px' }}
+          style={{ color: 'var(--text-secondary)', marginLeft: 'auto', padding: '8px', minWidth: '44px', minHeight: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           onClick={() => setMenuOpen((o) => !o)}
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
@@ -128,7 +128,7 @@ export const TopNav = () => {
             <a
               key={link}
               href={`#${link.toLowerCase()}`}
-              className={`nav-link py-1${active === link.toLowerCase() ? ' active' : ''}`}
+              className={`nav-link mobile-nav-link py-1${active === link.toLowerCase() ? ' active' : ''}`}
               onClick={() => setMenuOpen(false)}
             >
               {link}

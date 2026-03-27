@@ -205,7 +205,7 @@ export const ProjectsSection = () => {
   return (
     <section
       id="projects"
-      className="w-full"
+      className="w-full section-responsive"
       style={{ padding: '8rem 1.5rem' }}
     >
       <div style={{ maxWidth: '1152px', width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '4rem' }}>
@@ -224,6 +224,7 @@ export const ProjectsSection = () => {
 
         {/* Responsive grid */}
         <div
+          className="projects-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',

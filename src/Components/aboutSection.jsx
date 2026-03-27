@@ -9,22 +9,30 @@ const stats = [
   { value: '8+', label: 'Technologies' },
 ];
 
-export const AboutSection = () => {
+const useReveal = (options = {}) => {
   const ref = useRef(null);
-
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) ref.current?.classList.add('visible'); },
-      { threshold: 0.1 }
+      ([entry]) => { if (entry.isIntersecting) el.classList.add('visible'); },
+      { threshold: options.threshold ?? 0.1 }
     );
-    if (ref.current) observer.observe(ref.current);
+    observer.observe(el);
     return () => observer.disconnect();
   }, []);
+  return ref;
+};
+
+export const AboutSection = () => {
+  const profileRef = useReveal();
+  const bioRef = useReveal({ threshold: 0.15 });
+  const skillsRef = useReveal({ threshold: 0.2 });
 
   return (
     <section
       id="about"
-      className="relative w-full overflow-hidden"
+      className="relative w-full overflow-hidden section-responsive"
       style={{ padding: '8rem 1.5rem', minHeight: '100vh', display: 'flex', alignItems: 'center' }}
     >
       {/* Ambient glow */}
@@ -36,8 +44,7 @@ export const AboutSection = () => {
       {/* Centered max-width wrapper */}
       <div style={{ maxWidth: '1152px', width: '100%', margin: '0 auto' }}>
         <div
-          ref={ref}
-          className="reveal"
+          className="about-layout"
           style={{
             display: 'flex',
             flexDirection: 'row',
@@ -47,8 +54,8 @@ export const AboutSection = () => {
             flexWrap: 'wrap',
           }}
         >
-          {/* Profile photo */}
-          <div style={{ flexShrink: 0, position: 'relative' }}>
+          {/* Profile photo — reveal from left */}
+          <div ref={profileRef} className="reveal-left" style={{ flexShrink: 0, position: 'relative' }}>
             <div
               style={{
                 position: 'absolute',
@@ -59,6 +66,7 @@ export const AboutSection = () => {
               }}
             />
             <div
+              className="about-profile-ring"
               style={{
                 position: 'relative',
                 width: '17rem',
@@ -81,8 +89,8 @@ export const AboutSection = () => {
             </div>
           </div>
 
-          {/* Bio */}
-          <div style={{ flex: '1 1 320px', display: 'flex', flexDirection: 'column', gap: '2rem', minWidth: 0 }}>
+          {/* Bio — reveal from bottom */}
+          <div ref={bioRef} className="reveal about-bio" style={{ flex: '1 1 320px', display: 'flex', flexDirection: 'column', gap: '2rem', minWidth: 0 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <h2 className="section-title">About Me</h2>
               <div style={{ height: '1px', width: '3.5rem', background: `linear-gradient(to right, var(--section-underline-from), transparent)` }} />
@@ -94,7 +102,7 @@ export const AboutSection = () => {
             </p>
 
             {/* Stats */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem', maxWidth: '22rem' }}>
+            <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem', maxWidth: '22rem' }}>
               {stats.map(({ value, label }) => (
                 <div key={label} className="stat-card" style={{ textAlign: 'center' }}>
                   <span style={{ color: 'var(--text)', fontWeight: 700, fontSize: '1.5rem', fontFamily: 'Archivo, sans-serif' }}>{value}</span>
@@ -103,8 +111,8 @@ export const AboutSection = () => {
               ))}
             </div>
 
-            {/* Skills */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
+            {/* Skills — staggered reveal */}
+            <div ref={skillsRef} className="reveal-scale reveal-stagger skills-wrap" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
               {skills.map((skill) => (
                 <span key={skill} className="skill-chip px-4 py-1.5 rounded-full text-sm font-medium">
                   {skill}

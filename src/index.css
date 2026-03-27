@@ -139,7 +139,7 @@
   --date-border: rgba(15, 23, 42, 0.08);
   --divider: rgba(15, 23, 42, 0.06);
   --scroll-line: linear-gradient(to bottom, transparent, #475569);
-  --cursor-spotlight: rgba(79, 70, 229, 0.04);
+  --cursor-spotlight: rgba(15, 23, 42, 0.12);
   --section-underline-from: #6366f1;
   --loader-bg: #f8fafc;
   --loader-ring-1: rgba(79, 70, 229, 0.7);
@@ -816,6 +816,56 @@ a {
 @keyframes orbit-spin-3 { to { transform: rotateX(80deg) rotateY(-30deg) rotateZ(375deg); } }
 
 /* Orbiting spheres — 3D shading with specular highlight */
+.orbit-object-btn {
+  appearance: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  isolation: isolate;
+  transition: filter 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
+}
+.orbit-object-btn:focus-visible {
+  outline: 2px solid rgba(37, 99, 235, 0.85);
+  outline-offset: 4px;
+}
+.orbit-object-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 220%;
+  height: 220%;
+  transform: translate(-50%, -50%) scale(0.35);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  pointer-events: none;
+}
+.orbit-object-btn.is-exploding {
+  animation: orbit-object-flash 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.orbit-object-btn.is-exploding::after {
+  animation: orbit-shockwave 0.65s cubic-bezier(0.12, 0.9, 0.22, 1) both;
+}
+
+.orbit-spark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 10px rgba(129, 140, 248, 0.7);
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0;
+  pointer-events: none;
+}
+.orbit-object-btn.is-exploding .orbit-spark {
+  animation: orbit-spark-burst 0.62s cubic-bezier(0.15, 0.75, 0.2, 1) both;
+  animation-delay: var(--spark-delay);
+}
+
 .orbit-sphere {
   position: absolute;
   border-radius: 50%;
@@ -953,6 +1003,41 @@ a {
 @keyframes float-3 {
   0% { transform: translate(-60px, 90px) rotate(45deg) scale(1); }
   100% { transform: translate(90px, -80px) rotate(225deg) scale(1.1); }
+}
+
+@keyframes orbit-object-flash {
+  0% {
+    filter: brightness(1) saturate(1);
+    opacity: 1;
+  }
+  45% {
+    filter: brightness(1.9) saturate(1.5);
+    opacity: 0.95;
+  }
+  100% {
+    filter: brightness(1) saturate(1);
+    opacity: 1;
+  }
+}
+@keyframes orbit-shockwave {
+  0% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(0.35);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.55);
+  }
+}
+@keyframes orbit-spark-burst {
+  0% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--spark-x)), calc(-50% + var(--spark-y))) scale(0.95);
+  }
 }
 
 /* ── Loading screen grid ── */
@@ -1302,6 +1387,12 @@ a {
   .mobile-menu { transition: none; }
   .mobile-menu-backdrop { transition: none; }
   .mobile-menu-link { transition: none; opacity: 1; transform: none; }
+  .orbit-object-btn { transition: none; }
+  .orbit-object-btn.is-exploding,
+  .orbit-object-btn.is-exploding::after,
+  .orbit-object-btn.is-exploding .orbit-spark {
+    animation: none;
+  }
 }
 
 /* ══════════════════════════════════════════════

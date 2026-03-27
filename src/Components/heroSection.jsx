@@ -1,17 +1,32 @@
 import { useEffect, useRef, useState } from 'react';
 
 const ROLES = ['Software Developer', 'Full Stack Engineer', 'Creative Problem Solver'];
+const EXPLOSION_IDS = ['sphere-1', 'sphere-2', 'sphere-3', 'sphere-4', 'sphere-5', 'float-1', 'float-2', 'float-3'];
+const SPARK_OFFSETS = [
+  { x: '-32px', y: '-18px', delay: '0ms' },
+  { x: '-12px', y: '-34px', delay: '20ms' },
+  { x: '20px', y: '-26px', delay: '40ms' },
+  { x: '34px', y: '-4px', delay: '60ms' },
+  { x: '24px', y: '24px', delay: '80ms' },
+  { x: '0px', y: '34px', delay: '100ms' },
+  { x: '-26px', y: '20px', delay: '120ms' },
+  { x: '-36px', y: '2px', delay: '140ms' },
+];
 
 export const HeroSection = () => {
   const sectionRef = useRef(null);
   const contentRef = useRef(null);
   const frameRef = useRef(null);
+  const explosionTimersRef = useRef({});
   const mouseRef = useRef({ x: 0, y: 0 });
 
   const [orb, setOrb] = useState({ x: 0, y: 0 });
   const [roleIdx, setRoleIdx] = useState(0);
   const [roleVisible, setRoleVisible] = useState(true);
   const [cursor, setCursor] = useState({ x: -999, y: -999 });
+  const [explosions, setExplosions] = useState(() =>
+    EXPLOSION_IDS.reduce((acc, id) => ({ ...acc, [id]: false }), {})
+  );
 
   useEffect(() => {
     const t = setTimeout(() => contentRef.current?.classList.add('visible'), 120);
@@ -41,6 +56,12 @@ export const HeroSection = () => {
     return () => cancelAnimationFrame(frameRef.current);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      Object.values(explosionTimersRef.current).forEach((timer) => clearTimeout(timer));
+    };
+  }, []);
+
   const handleMouseMove = (e) => {
     const rect = sectionRef.current?.getBoundingClientRect();
     if (!rect) return;
@@ -55,6 +76,24 @@ export const HeroSection = () => {
     mouseRef.current = { x: 0, y: 0 };
     setCursor({ x: -999, y: -999 });
   };
+
+  const triggerExplosion = (id) => {
+    if (explosionTimersRef.current[id]) clearTimeout(explosionTimersRef.current[id]);
+
+    setExplosions((prev) => ({ ...prev, [id]: true }));
+    explosionTimersRef.current[id] = setTimeout(() => {
+      setExplosions((prev) => ({ ...prev, [id]: false }));
+    }, 650);
+  };
+
+  const renderSparks = () =>
+    SPARK_OFFSETS.map((spark, idx) => (
+      <span
+        key={idx}
+        className="orbit-spark"
+        style={{ '--spark-x': spark.x, '--spark-y': spark.y, '--spark-delay': spark.delay }}
+      />
+    ));
 
   return (
     <section
@@ -118,25 +157,81 @@ export const HeroSection = () => {
 
           {/* Orbit ring 1 — horizontal */}
           <div className="orbit-ring orbit-ring-1">
-            <div className="orbit-sphere orbit-sphere-1" />
-            <div className="orbit-sphere orbit-sphere-2" />
+            <button
+              type="button"
+              className={`orbit-object-btn orbit-sphere orbit-sphere-1${explosions['sphere-1'] ? ' is-exploding' : ''}`}
+              onClick={() => triggerExplosion('sphere-1')}
+              aria-label="Trigger orbit pulse effect"
+            >
+              {renderSparks()}
+            </button>
+            <button
+              type="button"
+              className={`orbit-object-btn orbit-sphere orbit-sphere-2${explosions['sphere-2'] ? ' is-exploding' : ''}`}
+              onClick={() => triggerExplosion('sphere-2')}
+              aria-label="Trigger orbit pulse effect"
+            >
+              {renderSparks()}
+            </button>
           </div>
 
           {/* Orbit ring 2 — tilted */}
           <div className="orbit-ring orbit-ring-2">
-            <div className="orbit-sphere orbit-sphere-3" />
-            <div className="orbit-sphere orbit-sphere-4" />
+            <button
+              type="button"
+              className={`orbit-object-btn orbit-sphere orbit-sphere-3${explosions['sphere-3'] ? ' is-exploding' : ''}`}
+              onClick={() => triggerExplosion('sphere-3')}
+              aria-label="Trigger orbit pulse effect"
+            >
+              {renderSparks()}
+            </button>
+            <button
+              type="button"
+              className={`orbit-object-btn orbit-sphere orbit-sphere-4${explosions['sphere-4'] ? ' is-exploding' : ''}`}
+              onClick={() => triggerExplosion('sphere-4')}
+              aria-label="Trigger orbit pulse effect"
+            >
+              {renderSparks()}
+            </button>
           </div>
 
           {/* Orbit ring 3 — perpendicular */}
           <div className="orbit-ring orbit-ring-3">
-            <div className="orbit-sphere orbit-sphere-5" />
+            <button
+              type="button"
+              className={`orbit-object-btn orbit-sphere orbit-sphere-5${explosions['sphere-5'] ? ' is-exploding' : ''}`}
+              onClick={() => triggerExplosion('sphere-5')}
+              aria-label="Trigger orbit pulse effect"
+            >
+              {renderSparks()}
+            </button>
           </div>
 
           {/* Floating abstract shapes */}
-          <div className="orbit-float orbit-float-1" />
-          <div className="orbit-float orbit-float-2" />
-          <div className="orbit-float orbit-float-3" />
+          <button
+            type="button"
+            className={`orbit-object-btn orbit-float orbit-float-1${explosions['float-1'] ? ' is-exploding' : ''}`}
+            onClick={() => triggerExplosion('float-1')}
+            aria-label="Trigger floating shape pulse effect"
+          >
+            {renderSparks()}
+          </button>
+          <button
+            type="button"
+            className={`orbit-object-btn orbit-float orbit-float-2${explosions['float-2'] ? ' is-exploding' : ''}`}
+            onClick={() => triggerExplosion('float-2')}
+            aria-label="Trigger floating shape pulse effect"
+          >
+            {renderSparks()}
+          </button>
+          <button
+            type="button"
+            className={`orbit-object-btn orbit-float orbit-float-3${explosions['float-3'] ? ' is-exploding' : ''}`}
+            onClick={() => triggerExplosion('float-3')}
+            aria-label="Trigger floating shape pulse effect"
+          >
+            {renderSparks()}
+          </button>
         </div>
       </div>
 

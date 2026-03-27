@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { DottedSurface } from '@/components/ui/dotted-surface-lazy';
+import { DottedSurface } from '@/Components/ui/dotted-surface-lazy';
 
 const ROLES = ['Software Developer', 'Full Stack Engineer', 'Creative Problem Solver'];
 const EXPLOSION_IDS = ['sphere-1', 'sphere-2', 'sphere-3', 'sphere-4', 'sphere-5', 'float-1', 'float-2', 'float-3'];

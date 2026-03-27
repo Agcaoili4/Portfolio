@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
 import { TopNav } from './topnav';
 import { HeroSection } from './heroSection';
 import { AboutSection } from './aboutSection';
@@ -8,7 +7,7 @@ import { ExperienceSection } from './experienceSection';
 
 export const HomeLayout = () => {
   return (
-    <div className="relative w-full bg-[#0a0a0a] text-white min-h-screen">
+    <div className="relative w-full min-h-screen" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)', transition: 'background-color 0.35s ease, color 0.35s ease' }}>
       <TopNav />
       <HeroSection />
       <AboutSection />

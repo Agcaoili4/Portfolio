@@ -70,7 +70,10 @@ export const ContactSection = () => {
       style={{ padding: '8rem 1.5rem' }}
     >
       {/* Ambient glow */}
-      <div className="glow-blob w-[500px] h-[500px] opacity-10 bg-indigo-600 bottom-0 right-0 translate-x-1/4 translate-y-1/4" />
+      <div
+        className="glow-blob"
+        style={{ width: '500px', height: '500px', background: 'var(--glow-blob-color)', bottom: 0, right: 0, transform: 'translate(25%, 25%)' }}
+      />
 
       {/* Centered content wrapper */}
       <div
@@ -91,7 +94,7 @@ export const ContactSection = () => {
         {/* Heading */}
         <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           <h2 className="section-title">Get in Touch</h2>
-          <p className="text-slate-400 font-light leading-relaxed">
+          <p style={{ color: 'var(--text-secondary)', fontWeight: 300, lineHeight: 1.6 }}>
             Have a project in mind or just want to say hello? My inbox is open.
           </p>
         </div>
@@ -99,14 +102,20 @@ export const ContactSection = () => {
         {/* Form / Success state */}
         {status === 'sent' ? (
           <div className="w-full glass-card rounded-2xl p-10 flex flex-col items-center gap-4 text-center">
-            <div className="w-12 h-12 rounded-full bg-green-500/10 text-green-400 flex items-center justify-center">
+            <div
+              className="w-12 h-12 rounded-full flex items-center justify-center"
+              style={{ background: 'var(--success-bg)', color: 'var(--success-text)' }}
+            >
               <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <p className="text-white font-semibold text-lg" style={{ fontFamily: 'Archivo, sans-serif' }}>Message Sent!</p>
-            <p className="text-slate-400 text-sm">Thanks for reaching out — I'll get back to you soon.</p>
-            <button onClick={() => setStatus('idle')} className="text-indigo-400 text-sm font-medium hover:text-indigo-300 transition-colors cursor-pointer mt-1">
+            <p style={{ color: 'var(--text)', fontWeight: 600, fontSize: '1.125rem', fontFamily: 'Archivo, sans-serif' }}>Message Sent!</p>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Thanks for reaching out — I'll get back to you soon.</p>
+            <button
+              onClick={() => setStatus('idle')}
+              style={{ color: 'var(--text-accent)', fontSize: '0.875rem', fontWeight: 500, background: 'none', border: 'none', cursor: 'pointer', marginTop: '0.25rem' }}
+            >
               Send another
             </button>
           </div>
@@ -114,7 +123,7 @@ export const ContactSection = () => {
           <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex flex-col gap-1.5 flex-1">
-                <label htmlFor="contact-name" className="text-slate-400 text-sm font-medium">Name</label>
+                <label htmlFor="contact-name" style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: 500 }}>Name</label>
                 <input
                   id="contact-name"
                   type="text"
@@ -126,11 +135,11 @@ export const ContactSection = () => {
                   autoComplete="name"
                   aria-invalid={!!errors.name}
                 />
-                {errors.name && <span className="text-red-400 text-xs">{errors.name}</span>}
+                {errors.name && <span style={{ color: '#ef4444', fontSize: '0.75rem' }}>{errors.name}</span>}
               </div>
 
               <div className="flex flex-col gap-1.5 flex-1">
-                <label htmlFor="contact-email" className="text-slate-400 text-sm font-medium">Email</label>
+                <label htmlFor="contact-email" style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: 500 }}>Email</label>
                 <input
                   id="contact-email"
                   type="email"
@@ -142,12 +151,12 @@ export const ContactSection = () => {
                   autoComplete="email"
                   aria-invalid={!!errors.email}
                 />
-                {errors.email && <span className="text-red-400 text-xs">{errors.email}</span>}
+                {errors.email && <span style={{ color: '#ef4444', fontSize: '0.75rem' }}>{errors.email}</span>}
               </div>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="contact-message" className="text-slate-400 text-sm font-medium">Message</label>
+              <label htmlFor="contact-message" style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: 500 }}>Message</label>
               <textarea
                 id="contact-message"
                 placeholder="Write your message here..."
@@ -158,7 +167,7 @@ export const ContactSection = () => {
                 style={{ borderColor: errors.message ? 'rgba(239,68,68,0.6)' : undefined }}
                 aria-invalid={!!errors.message}
               />
-              {errors.message && <span className="text-red-400 text-xs">{errors.message}</span>}
+              {errors.message && <span style={{ color: '#ef4444', fontSize: '0.75rem' }}>{errors.message}</span>}
             </div>
 
             <button
@@ -184,15 +193,18 @@ export const ContactSection = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
           {socials.map(({ label, href, icon }) => (
             <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}
-              className="text-slate-500 hover:text-white transition-colors duration-200 cursor-pointer">
+              style={{ color: 'var(--social-text)', transition: 'color 0.2s', cursor: 'pointer' }}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text)'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--social-text)'}
+            >
               {icon}
             </a>
           ))}
         </div>
 
         {/* Footer */}
-        <div className="w-full border-t border-white/[0.06] pt-6 text-center">
-          <p className="text-slate-600 text-sm">© 2026. All rights reserved.</p>
+        <div className="w-full pt-6 text-center" style={{ borderTop: '1px solid var(--footer-border)' }}>
+          <p style={{ color: 'var(--footer-text)', fontSize: '0.875rem' }}>© 2026. All rights reserved.</p>
         </div>
       </div>
     </section>

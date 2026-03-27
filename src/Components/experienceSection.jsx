@@ -16,7 +16,7 @@ const experiences = [
       'Made significant contributions in keeping documentation in tracking with the evolving codebase, ensuring clarity and maintainability for future developers.',
       'Collaborated closely with the design team to create an intuitive and visually appealing user interface using React, TypeScript, and Tailwind CSS, resulting in a faster deployment cycle.',
     ],
-    tech: ['React', 'TypeScript', 'Node.js', 'PostgreSQL'],
+    tech: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Vite', 'Render'],
     accentColor: 'rgba(241, 99, 99, 0.12)',
     accentGlow: 'rgba(241, 99, 99, 0.25)',
     initBg: 'linear-gradient(135deg, #e96b6b, #ed3a3a)',
@@ -82,15 +82,15 @@ const ExperienceCard = ({ exp, index }) => {
         position: 'relative',
         borderRadius: '1.25rem',
         padding: '2rem',
-        background: 'rgba(255,255,255,0.03)',
+        background: 'var(--bg-card)',
         border: '1px solid',
-        borderColor: hovered ? 'rgba(99,102,241,0.35)' : 'rgba(255,255,255,0.07)',
+        borderColor: hovered ? 'var(--border-hover)' : 'var(--border)',
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         gap: '1.5rem',
-        transition: 'border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease',
-        boxShadow: hovered ? `0 0 40px ${exp.accentGlow}` : 'none',
+        transition: 'border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, background 0.35s ease',
+        boxShadow: hovered ? `var(--card-hover-shadow), 0 0 40px ${exp.accentGlow}` : 'var(--card-shadow)',
         transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
         transitionDelay: `${index * 80}ms`,
       }}
@@ -101,7 +101,7 @@ const ExperienceCard = ({ exp, index }) => {
           position: 'absolute',
           inset: 0,
           background: `radial-gradient(ellipse at top left, ${exp.accentColor}, transparent 65%)`,
-          opacity: hovered ? 1 : 0,
+          opacity: hovered ? 'var(--exp-accent-wash-opacity)' : 0,
           transition: 'opacity 0.35s ease',
           pointerEvents: 'none',
           borderRadius: '1.25rem',
@@ -152,7 +152,7 @@ const ExperienceCard = ({ exp, index }) => {
                 fontFamily: 'Archivo, sans-serif',
                 fontWeight: 700,
                 fontSize: '1rem',
-                color: '#fff',
+                color: 'var(--text)',
                 lineHeight: 1.2,
               }}
             >
@@ -162,7 +162,7 @@ const ExperienceCard = ({ exp, index }) => {
               style={{
                 fontSize: '0.7rem',
                 fontWeight: 600,
-                color: '#818cf8',
+                color: 'var(--text-accent-mid)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em',
               }}
@@ -177,9 +177,9 @@ const ExperienceCard = ({ exp, index }) => {
           style={{
             fontSize: '0.78rem',
             fontWeight: 500,
-            color: '#64748b',
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.08)',
+            color: 'var(--text-muted)',
+            background: 'var(--date-bg)',
+            border: '1px solid var(--date-border)',
             borderRadius: '9999px',
             padding: '0.3rem 0.9rem',
             whiteSpace: 'nowrap',
@@ -197,7 +197,7 @@ const ExperienceCard = ({ exp, index }) => {
             fontFamily: 'Archivo, sans-serif',
             fontWeight: 800,
             fontSize: 'clamp(1.35rem, 3vw, 1.75rem)',
-            color: '#fff',
+            color: 'var(--text)',
             lineHeight: 1.15,
             letterSpacing: '-0.025em',
           }}
@@ -209,7 +209,7 @@ const ExperienceCard = ({ exp, index }) => {
       {/* Description */}
       <p
         style={{
-          color: '#94a3b8',
+          color: 'var(--text-secondary)',
           fontSize: '0.9rem',
           fontWeight: 300,
           lineHeight: 1.7,
@@ -239,7 +239,7 @@ const ExperienceCard = ({ exp, index }) => {
               display: 'flex',
               alignItems: 'flex-start',
               gap: '0.625rem',
-              color: '#cbd5e1',
+              color: 'var(--tech-text)',
               fontSize: '0.875rem',
               fontWeight: 400,
               lineHeight: 1.6,
@@ -251,7 +251,7 @@ const ExperienceCard = ({ exp, index }) => {
                 width: '5px',
                 height: '5px',
                 borderRadius: '50%',
-                background: '#818cf8',
+                background: 'var(--text-accent-mid)',
                 flexShrink: 0,
               }}
             />
@@ -270,7 +270,7 @@ const ExperienceCard = ({ exp, index }) => {
           zIndex: 1,
           marginTop: 'auto',
           paddingTop: '0.5rem',
-          borderTop: '1px solid rgba(255,255,255,0.05)',
+          borderTop: '1px solid var(--divider)',
         }}
       >
         {exp.tech.map((t) => (
@@ -281,9 +281,9 @@ const ExperienceCard = ({ exp, index }) => {
               borderRadius: '0.375rem',
               fontSize: '0.75rem',
               fontWeight: 500,
-              background: 'rgba(255,255,255,0.06)',
-              color: '#cbd5e1',
-              border: '1px solid rgba(255,255,255,0.07)',
+              background: 'var(--tech-bg)',
+              color: 'var(--tech-text)',
+              border: '1px solid var(--tech-border)',
             }}
           >
             {t}
@@ -333,10 +333,10 @@ export const ExperienceSection = () => {
           style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1rem' }}
         >
           <h2 className="section-title">Experience</h2>
-          <div style={{ height: '1px', width: '3.5rem', background: 'linear-gradient(to right, transparent, #6366f1, transparent)' }} />
+          <div style={{ height: '1px', width: '3.5rem', background: `linear-gradient(to right, transparent, var(--section-underline-from), transparent)` }} />
           <p
             style={{
-              color: '#94a3b8',
+              color: 'var(--text-secondary)',
               fontSize: '1.125rem',
               fontWeight: 300,
               maxWidth: '32rem',

@@ -68,18 +68,18 @@ export const HeroSection = () => {
       <div
         aria-hidden="true"
         style={{
-          position: "absolute",
+          position: 'absolute',
           left: cursor.x,
           top: cursor.y,
-          width: "500px",
-          height: "500px",
-          transform: "translate(-50%, -50%)",
-          background: "radial-gradient(circle, rgba(79,70,229,0.07) 0%, transparent 65%)",
-          borderRadius: "50%",
-          pointerEvents: "none",
+          width: '500px',
+          height: '500px',
+          transform: 'translate(-50%, -50%)',
+          background: `radial-gradient(circle, var(--cursor-spotlight) 0%, transparent 65%)`,
+          borderRadius: '50%',
+          pointerEvents: 'none',
           zIndex: 1,
           opacity: cursor.x === -999 ? 0 : 1,
-          transition: "opacity 0.4s ease",
+          transition: 'opacity 0.4s ease',
         }}
       />
 
@@ -95,11 +95,56 @@ export const HeroSection = () => {
       {/* Subtle dot-grid overlay */}
       <div className="hero-grid" aria-hidden="true" />
 
-      {/* Content */}
+      {/* 3D Orbital scene — absolutely positioned right side */}
+      <div
+        className="hero-orbit-wrapper"
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          right: 'clamp(2rem, 8vw, 10rem)',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 1,
+        }}
+      >
+        <div
+          className="hero-orbit-scene"
+          style={{
+            transform: `rotateY(${orb.x * 12}deg) rotateX(${orb.y * -12}deg)`,
+          }}
+        >
+          {/* Central glowing sphere */}
+          <div className="orbit-core" />
+
+          {/* Orbit ring 1 — horizontal */}
+          <div className="orbit-ring orbit-ring-1">
+            <div className="orbit-sphere orbit-sphere-1" />
+            <div className="orbit-sphere orbit-sphere-2" />
+          </div>
+
+          {/* Orbit ring 2 — tilted */}
+          <div className="orbit-ring orbit-ring-2">
+            <div className="orbit-sphere orbit-sphere-3" />
+            <div className="orbit-sphere orbit-sphere-4" />
+          </div>
+
+          {/* Orbit ring 3 — perpendicular */}
+          <div className="orbit-ring orbit-ring-3">
+            <div className="orbit-sphere orbit-sphere-5" />
+          </div>
+
+          {/* Floating abstract shapes */}
+          <div className="orbit-float orbit-float-1" />
+          <div className="orbit-float orbit-float-2" />
+          <div className="orbit-float orbit-float-3" />
+        </div>
+      </div>
+
+      {/* Content — full width, left-aligned on desktop */}
       <div
         ref={contentRef}
-        className="reveal relative flex flex-col items-center text-center gap-6 px-6 w-full"
-        style={{ maxWidth: "900px", zIndex: 2 }}
+        className="reveal relative flex flex-col items-center text-center gap-6 px-6 w-full md:items-start md:text-left"
+        style={{ maxWidth: '1200px', zIndex: 2 }}
       >
         {/* Status badge link */}
         <a
@@ -108,25 +153,25 @@ export const HeroSection = () => {
           rel="noopener noreferrer"
           aria-label="View Jansen's LinkedIn profile"
           style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            background: "rgba(79,70,229,0.08)",
-            border: "1px solid rgba(79,70,229,0.2)",
-            borderRadius: "9999px",
-            padding: "0.35rem 1rem",
-            textDecoration: "none",
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            background: 'var(--badge-bg)',
+            border: '1px solid var(--badge-border)',
+            borderRadius: '9999px',
+            padding: '0.35rem 1rem',
+            textDecoration: 'none',
           }}
         >
           <span className="hero-dot-pulse" />
           <span
             style={{
-              fontFamily: "Space Grotesk, sans-serif",
-              fontSize: "0.75rem",
+              fontFamily: 'Space Grotesk, sans-serif',
+              fontSize: '0.75rem',
               fontWeight: 600,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "rgba(148,163,184,0.85)",
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: 'var(--badge-text)',
             }}
           >
             AJ &mdash; Available for work
@@ -137,17 +182,17 @@ export const HeroSection = () => {
         <h1 className="hero-name">WELCOME</h1>
 
         {/* Typewriter role */}
-        <div style={{ height: "1.8rem", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ height: '1.8rem', display: 'flex', alignItems: 'center' }}>
           <p
             style={{
-              fontFamily: "Space Grotesk, sans-serif",
-              fontSize: "clamp(0.9rem, 2.5vw, 1.1rem)",
+              fontFamily: 'Space Grotesk, sans-serif',
+              fontSize: 'clamp(0.9rem, 2.5vw, 1.1rem)',
               fontWeight: 500,
-              color: "#a5b4fc",
-              letterSpacing: "0.02em",
+              color: 'var(--text-accent)',
+              letterSpacing: '0.02em',
               opacity: roleVisible ? 1 : 0,
-              transform: roleVisible ? "translateY(0)" : "translateY(5px)",
-              transition: "opacity 0.35s ease, transform 0.35s ease",
+              transform: roleVisible ? 'translateY(0)' : 'translateY(5px)',
+              transition: 'opacity 0.35s ease, transform 0.35s ease',
             }}
           >
             {ROLES[roleIdx]}
@@ -157,11 +202,11 @@ export const HeroSection = () => {
         {/* Description */}
         <p
           style={{
-            fontFamily: "Space Grotesk, sans-serif",
-            color: "rgba(148,163,184,0.8)",
-            fontSize: "clamp(0.9rem, 2vw, 1.1rem)",
+            fontFamily: 'Space Grotesk, sans-serif',
+            color: 'var(--text-secondary)',
+            fontSize: 'clamp(0.9rem, 2vw, 1.1rem)',
             fontWeight: 300,
-            maxWidth: "34rem",
+            maxWidth: '34rem',
             lineHeight: 1.8,
           }}
         >
@@ -172,12 +217,11 @@ export const HeroSection = () => {
         {/* CTAs */}
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "1rem",
-            marginTop: "0.5rem",
-            flexWrap: "wrap",
-            justifyContent: "center",
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+            marginTop: '0.5rem',
+            flexWrap: 'wrap',
           }}
         >
           <a href="#projects" className="cta-btn">
@@ -195,27 +239,26 @@ export const HeroSection = () => {
         <div
           aria-hidden="true"
           style={{
-            display: "flex",
-            gap: "0.5rem",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            marginTop: "0.75rem",
-            opacity: 0.4,
+            display: 'flex',
+            gap: '0.5rem',
+            flexWrap: 'wrap',
+            marginTop: '0.75rem',
+            opacity: 0.55,
           }}
         >
-          {["React", "TypeScript", "Node.js", "C#", "PostgreSQL"].map((tag) => (
+          {['React', 'TypeScript', 'Node.js', 'C#', 'PostgreSQL'].map((tag) => (
             <span
               key={tag}
               style={{
-                fontFamily: "Space Grotesk, sans-serif",
-                fontSize: "0.68rem",
+                fontFamily: 'Space Grotesk, sans-serif',
+                fontSize: '0.68rem',
                 fontWeight: 500,
-                letterSpacing: "0.08em",
-                color: "#94a3b8",
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.07)",
-                borderRadius: "0.375rem",
-                padding: "0.2rem 0.55rem",
+                letterSpacing: '0.08em',
+                color: 'var(--tag-text)',
+                background: 'var(--tag-bg)',
+                border: '1px solid var(--tag-border)',
+                borderRadius: '0.375rem',
+                padding: '0.2rem 0.55rem',
               }}
             >
               {tag}
@@ -228,7 +271,7 @@ export const HeroSection = () => {
       <div
         className="scroll-indicator"
         aria-hidden="true"
-        style={{ position: "absolute", bottom: "2.5rem", left: "50%", transform: "translateX(-50%)" }}
+        style={{ position: 'absolute', bottom: '2.5rem', left: '50%', transform: 'translateX(-50%)' }}
       >
         <span />
       </div>

@@ -36,7 +36,7 @@ export const LoadingScreen = ({ onDone }) => {
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        background: '#0a0a0a',
+        background: 'var(--loader-bg)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -63,8 +63,8 @@ export const LoadingScreen = ({ onDone }) => {
             width: '72px',
             height: '72px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, rgba(79,70,229,0.15), rgba(124,58,237,0.1))',
-            border: '1px solid rgba(79,70,229,0.25)',
+            background: 'var(--loader-circle-bg)',
+            border: '1px solid var(--loader-circle-border)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -78,7 +78,7 @@ export const LoadingScreen = ({ onDone }) => {
               fontWeight: 900,
               fontSize: '1.75rem',
               letterSpacing: '-0.04em',
-              background: 'linear-gradient(135deg, #fff 30%, rgba(165,180,252,0.7))',
+              background: `linear-gradient(135deg, var(--loader-name-from) 30%, var(--loader-name-to))`,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -99,7 +99,7 @@ export const LoadingScreen = ({ onDone }) => {
             fontSize: '1.1rem',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
-            color: '#fff',
+            color: 'var(--text)',
           }}
         >
           Jansen
@@ -111,7 +111,7 @@ export const LoadingScreen = ({ onDone }) => {
             fontSize: '0.7rem',
             letterSpacing: '0.18em',
             textTransform: 'uppercase',
-            color: 'rgba(148,163,184,0.5)',
+            color: 'var(--loader-sub)',
           }}
         >
           Portfolio
@@ -137,7 +137,7 @@ export const LoadingScreen = ({ onDone }) => {
           style={{
             width: '100%',
             height: '1px',
-            background: 'rgba(255,255,255,0.06)',
+            background: 'var(--loader-track)',
             borderRadius: '9999px',
             overflow: 'hidden',
             position: 'relative',
@@ -150,10 +150,10 @@ export const LoadingScreen = ({ onDone }) => {
               top: 0,
               height: '100%',
               width: `${progress}%`,
-              background: 'linear-gradient(90deg, #4f46e5, #7c3aed)',
+              background: 'var(--loader-bar)',
               borderRadius: '9999px',
               transition: 'width 0.1s linear',
-              boxShadow: '0 0 8px rgba(79,70,229,0.6)',
+              boxShadow: 'var(--loader-bar-glow)',
             }}
           />
         </div>
@@ -163,7 +163,7 @@ export const LoadingScreen = ({ onDone }) => {
             fontSize: '0.65rem',
             fontWeight: 500,
             letterSpacing: '0.14em',
-            color: 'rgba(148,163,184,0.35)',
+            color: 'var(--loader-pct)',
           }}
         >
           {progress}%

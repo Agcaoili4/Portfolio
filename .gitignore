@@ -25,10 +25,87 @@ dist-ssr
 
 # env files
 .env
+.env.*
 .env.*.local
+!.env.example
+!.env.sample
+!.env.template
+
+# Secrets and sensitive data
+.npmrc
+.pypirc
+.netrc
+.envrc
+.direnv/
+.python-secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+*.jks
+*.keystore
+*.kdbx
+*.ovpn
+*.mobileprovision
+*service-account*.json
+*credentials*.json
+*secret*.json
+firebase-adminsdk*.json
+sa-key*.json
+id_rsa
+id_rsa.pub
+.nano-banana-config.json
+secrets/
+private/
+credentials/
+
+# Cloud/IaC local credentials and state
+.aws/
+.azure/
+.gcp/
+.terraform/
+terraform.tfstate*
+*.tfvars
+*.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+
+# Local databases and runtime data
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
 
 #Node modules
 node_modules
 
 #Other libraries and extensions that doesnt need to be tracked
 .claude
+.agent/
+.codebuddy/
+.continue/
+.cursor/
+.codex/
+.codebuddy/
+.gemini/
+.kiro/
+.opencode/
+.qoder/
+.roo/
+.trae/
+.windsurf/
+
+# Ignore Codex workspace metadata by default
+.codex/*
+
+# Keep only ui-ux-pro-max skill pack in repo
+!.codex/skills/
+!.codex/skills/ui-ux-pro-max/
+!.codex/skills/ui-ux-pro-max/**
+
+# Ignore Python cache artifacts from skill scripts
+.codex/skills/ui-ux-pro-max/**/__pycache__/
+.codex/skills/ui-ux-pro-max/**/*.pyc

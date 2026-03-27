@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import profileImg from '../assets/Profile.jpg';
 
 const skills = ['React', 'C#', 'PostgreSQL', 'TypeScript', 'Node.js', 'Tailwind CSS', '.NET', 'REST APIs'];
 
@@ -27,7 +28,10 @@ export const AboutSection = () => {
       style={{ padding: '8rem 1.5rem', minHeight: '100vh', display: 'flex', alignItems: 'center' }}
     >
       {/* Ambient glow */}
-      <div className="glow-blob w-[500px] h-[500px] opacity-10 bg-indigo-600 -top-20 -left-20" />
+      <div
+        className="glow-blob"
+        style={{ width: '500px', height: '500px', background: 'var(--glow-blob-color)', top: '-5rem', left: '-5rem' }}
+      />
 
       {/* Centered max-width wrapper */}
       <div style={{ maxWidth: '1152px', width: '100%', margin: '0 auto' }}>
@@ -45,27 +49,35 @@ export const AboutSection = () => {
         >
           {/* Profile photo */}
           <div style={{ flexShrink: 0, position: 'relative' }}>
-            <div className="absolute -inset-4 rounded-full bg-indigo-600/15 blur-2xl" />
+            <div
+              style={{
+                position: 'absolute',
+                inset: '-1rem',
+                borderRadius: '9999px',
+                background: 'var(--glow-blob-color)',
+                filter: 'blur(24px)',
+              }}
+            />
             <div
               style={{
                 position: 'relative',
                 width: '17rem',
                 height: '17rem',
                 borderRadius: '9999px',
-                border: '1px solid rgba(255,255,255,0.1)',
-                background: 'rgba(255,255,255,0.03)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+                border: '1px solid var(--profile-border)',
+                background: 'var(--profile-bg)',
                 overflow: 'hidden',
               }}
-              aria-label="Profile photo placeholder"
             >
-              {/* Rermember to replace with picture */}
-              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(79,70,229,0.4)" strokeWidth="1.2" aria-hidden="true">
-                <circle cx="12" cy="8" r="4" />
-                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-              </svg>
+              <img
+                src={profileImg}
+                alt="Jansen Agcaoili profile photo"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
+              />
             </div>
           </div>
 
@@ -73,10 +85,10 @@ export const AboutSection = () => {
           <div style={{ flex: '1 1 320px', display: 'flex', flexDirection: 'column', gap: '2rem', minWidth: 0 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <h2 className="section-title">About Me</h2>
-              <div style={{ height: '1px', width: '3.5rem', background: 'linear-gradient(to right, #6366f1, transparent)' }} />
+              <div style={{ height: '1px', width: '3.5rem', background: `linear-gradient(to right, var(--section-underline-from), transparent)` }} />
             </div>
 
-            <p className="text-slate-400 text-lg font-light leading-[1.75]" style={{ maxWidth: '34rem' }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '1.125rem', fontWeight: 300, lineHeight: 1.75, maxWidth: '34rem' }}>
               A software developer dedicated to building robust and elegant digital solutions. I thrive on translating complex requirements into seamless, high-performance
               applications — always with a sharp focus on clean architecture and intuitive user experience.
             </p>
@@ -85,8 +97,8 @@ export const AboutSection = () => {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem', maxWidth: '22rem' }}>
               {stats.map(({ value, label }) => (
                 <div key={label} className="stat-card" style={{ textAlign: 'center' }}>
-                  <span className="text-white font-bold text-2xl" style={{ fontFamily: 'Archivo, sans-serif' }}>{value}</span>
-                  <span className="text-slate-500 text-xs font-medium">{label}</span>
+                  <span style={{ color: 'var(--text)', fontWeight: 700, fontSize: '1.5rem', fontFamily: 'Archivo, sans-serif' }}>{value}</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: 500 }}>{label}</span>
                 </div>
               ))}
             </div>

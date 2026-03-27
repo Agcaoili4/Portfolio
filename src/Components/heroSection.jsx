@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { DottedSurface } from '@/components/ui/dotted-surface-lazy';
 
 const ROLES = ['Software Developer', 'Full Stack Engineer', 'Creative Problem Solver'];
 const EXPLOSION_IDS = ['sphere-1', 'sphere-2', 'sphere-3', 'sphere-4', 'sphere-5', 'float-1', 'float-2', 'float-3'];
@@ -145,8 +146,8 @@ export const HeroSection = () => {
         <div className="aurora-noise" />
       </div>
 
-      {/* Subtle dot-grid overlay */}
-      <div className="hero-grid" aria-hidden="true" />
+      {/* 3D Dotted wave surface (21st.dev) */}
+      <DottedSurface className="opacity-60" style={{ zIndex: 0 }} />
 
       {/* 3D Orbital scene — absolutely positioned right side */}
       <div

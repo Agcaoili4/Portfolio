@@ -49,6 +49,15 @@ export const TopNav = () => {
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
 
+  // Ensure mobile menu state resets when switching to desktop width
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth > 768) setMenuOpen(false);
+    };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
   const links = ['Home', 'About', 'Experience', 'Projects', 'Contact'];
   const isDark = theme === 'dark';
 

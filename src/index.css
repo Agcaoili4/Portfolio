@@ -1051,7 +1051,7 @@ a {
 
 /* ── Animated hamburger button ── */
 .hamburger {
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   width: 44px;
@@ -1062,6 +1062,11 @@ a {
   border: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+}
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
 }
 .hamburger-box {
   position: relative;

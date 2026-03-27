@@ -3,14 +3,16 @@ import { useEffect, useRef, useState } from 'react';
 const ROLES = ['Software Developer', 'Full Stack Engineer', 'Creative Problem Solver'];
 const EXPLOSION_IDS = ['sphere-1', 'sphere-2', 'sphere-3', 'sphere-4', 'sphere-5', 'float-1', 'float-2', 'float-3'];
 const SPARK_OFFSETS = [
-  { x: '-32px', y: '-18px', delay: '0ms' },
-  { x: '-12px', y: '-34px', delay: '20ms' },
-  { x: '20px', y: '-26px', delay: '40ms' },
-  { x: '34px', y: '-4px', delay: '60ms' },
-  { x: '24px', y: '24px', delay: '80ms' },
-  { x: '0px', y: '34px', delay: '100ms' },
-  { x: '-26px', y: '20px', delay: '120ms' },
-  { x: '-36px', y: '2px', delay: '140ms' },
+  { x: '-56px', y: '-26px', delay: '0ms' },
+  { x: '-28px', y: '-54px', delay: '16ms' },
+  { x: '8px', y: '-62px', delay: '32ms' },
+  { x: '42px', y: '-40px', delay: '48ms' },
+  { x: '62px', y: '-8px', delay: '64ms' },
+  { x: '50px', y: '34px', delay: '80ms' },
+  { x: '16px', y: '58px', delay: '96ms' },
+  { x: '-22px', y: '54px', delay: '112ms' },
+  { x: '-52px', y: '28px', delay: '128ms' },
+  { x: '-64px', y: '-2px', delay: '144ms' },
 ];
 
 export const HeroSection = () => {
@@ -18,12 +20,14 @@ export const HeroSection = () => {
   const contentRef = useRef(null);
   const frameRef = useRef(null);
   const explosionTimersRef = useRef({});
+  const sceneBurstTimerRef = useRef(null);
   const mouseRef = useRef({ x: 0, y: 0 });
 
   const [orb, setOrb] = useState({ x: 0, y: 0 });
   const [roleIdx, setRoleIdx] = useState(0);
   const [roleVisible, setRoleVisible] = useState(true);
   const [cursor, setCursor] = useState({ x: -999, y: -999 });
+  const [sceneBurst, setSceneBurst] = useState(false);
   const [explosions, setExplosions] = useState(() =>
     EXPLOSION_IDS.reduce((acc, id) => ({ ...acc, [id]: false }), {})
   );
@@ -59,6 +63,7 @@ export const HeroSection = () => {
   useEffect(() => {
     return () => {
       Object.values(explosionTimersRef.current).forEach((timer) => clearTimeout(timer));
+      if (sceneBurstTimerRef.current) clearTimeout(sceneBurstTimerRef.current);
     };
   }, []);
 
@@ -79,21 +84,30 @@ export const HeroSection = () => {
 
   const triggerExplosion = (id) => {
     if (explosionTimersRef.current[id]) clearTimeout(explosionTimersRef.current[id]);
+    if (sceneBurstTimerRef.current) clearTimeout(sceneBurstTimerRef.current);
 
     setExplosions((prev) => ({ ...prev, [id]: true }));
+    setSceneBurst(true);
+    sceneBurstTimerRef.current = setTimeout(() => setSceneBurst(false), 280);
     explosionTimersRef.current[id] = setTimeout(() => {
       setExplosions((prev) => ({ ...prev, [id]: false }));
-    }, 650);
+    }, 820);
   };
 
   const renderSparks = () =>
-    SPARK_OFFSETS.map((spark, idx) => (
-      <span
-        key={idx}
-        className="orbit-spark"
-        style={{ '--spark-x': spark.x, '--spark-y': spark.y, '--spark-delay': spark.delay }}
-      />
-    ));
+    (
+      <>
+        <span className="orbit-impact-core" />
+        <span className="orbit-impact-ring" />
+        {SPARK_OFFSETS.map((spark, idx) => (
+          <span
+            key={idx}
+            className="orbit-spark"
+            style={{ '--spark-x': spark.x, '--spark-y': spark.y, '--spark-delay': spark.delay }}
+          />
+        ))}
+      </>
+    );
 
   return (
     <section
@@ -147,7 +161,7 @@ export const HeroSection = () => {
         }}
       >
         <div
-          className="hero-orbit-scene"
+          className={`hero-orbit-scene${sceneBurst ? ' is-burst' : ''}`}
           style={{
             transform: `rotateY(${orb.x * 12}deg) rotateX(${orb.y * -12}deg)`,
           }}

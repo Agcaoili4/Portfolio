@@ -19,8 +19,8 @@ const projects = [
         <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
       </svg>
     ),
-    name: 'Analytics Dashboard',
-    desc: 'Comprehensive dashboard for tracking metrics across platforms with interactive data visualizations.',
+    name: 'Bixihomes and Renovations Inc.',
+    desc: 'A comprehensive website dedicated to showcasing the services and projects of Bixihomes and Renovations Inc.,',
     tech: ['Vue.js', 'Express', 'PostgreSQL'],
     accentColor: 'rgba(16,185,129,0.08)',
     link: '#',
@@ -205,10 +205,19 @@ export const ProjectsSection = () => {
   return (
     <section
       id="projects"
-      className="w-full section-responsive"
+      className="w-full section-responsive relative overflow-hidden"
       style={{ padding: '8rem 1.5rem' }}
     >
-      <div style={{ maxWidth: '1152px', width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '4rem' }}>
+      {/* Flowing aurora background — inspired by 21st.dev */}
+      <div className="projects-aurora" aria-hidden="true">
+        <div className="projects-aurora-wave projects-aurora-wave-1" />
+        <div className="projects-aurora-wave projects-aurora-wave-2" />
+        <div className="projects-aurora-wave projects-aurora-wave-3" />
+        <div className="projects-aurora-wave projects-aurora-wave-4" />
+        <div className="projects-aurora-noise" />
+      </div>
+
+      <div style={{ maxWidth: '1152px', width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '4rem', position: 'relative', zIndex: 1 }}>
 
         {/* Header */}
         <div

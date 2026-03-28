@@ -79,6 +79,10 @@ terraform.tfstate*
 *.sqlite3
 *.db-journal
 
+# .NET build artifacts
+**/bin/
+**/obj/
+
 #Node modules
 node_modules
 

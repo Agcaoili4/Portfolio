@@ -1,6 +1,6 @@
 # About
 
-A dark, Apple-inspired single-page portfolio built with React 19 and Vite, showcasing my work as a software developer. Designed for performance, interactivity, and a premium feel across light and dark modes.
+A dark, Tech-inspired single-page portfolio built with React 19 and Vite, showcasing my work as a software developer. Designed for performance, interactivity, and a premium feel across light and dark modes.
 
 ## Features
 

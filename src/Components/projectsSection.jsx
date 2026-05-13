@@ -21,7 +21,7 @@ const projects = [
     ),
     name: 'Bixihomes and Renovations Inc.',
     desc: 'A comprehensive website dedicated to showcasing the services and projects of Bixihomes and Renovations Inc.,',
-    tech: ['Vue.js', 'Express', 'PostgreSQL'],
+    tech: ['JavaScript', 'Node.js', 'React', 'Tailwind', 'Vite', 'Render'],
     accentColor: 'rgba(16,185,129,0.08)',
     link: '#',
   },
@@ -31,8 +31,8 @@ const projects = [
         <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
       </svg>
     ),
-    name: 'Task Management App',
-    desc: 'Intuitive productivity app with drag-and-drop Kanban boards, real-time collaboration, and automated reminders.',
+    name: 'Project Synthesis',
+    desc: 'A local AI (will be cloud-based in the future) that helps users in their daily tasks such as scheduling, reminders, and information retrieval. It uses ollama for LLM and Open Wake Word Detection for voice activation.',
     tech: ['React Native', 'Firebase', 'Tailwind'],
     accentColor: 'rgba(244,63,94,0.08)',
     link: '#',

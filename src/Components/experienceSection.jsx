@@ -2,13 +2,32 @@ import { useEffect, useRef, useState } from 'react';
 import enabledTalent from '../assets/enabledTalent.webp';
 import affinityMentorship from '../assets/affinityMentorship.webp';
 import goodlife from '../assets/goodlife.png';
+import bixihomes from '../assets/bixihomes.svg';
 
 const experiences = [
+    {
+    company: 'Bixi Homes',
+    role: 'Full Stack Developer',
+    type: 'Contract',
+    period: 'Mar 2026 – Present',
+    description:
+      'Rebuild the Bixi Homes website using modern web technologies to enhance user experience, improve performance, and provide a more engaging platform for showcasing house restoration projects and other services.',
+    achievements: [
+      'Redevelop and enhance the website using React, JavaScript, and Tailwind CSS, resulting in a more modern and responsive user interface that improved user engagement and satisfaction.',
+      'Implemented CI/CD pipleines using GitHub Actions, Vite, and Render, reducing deployment times by 40% and ensuring a more reliable release process.',
+      'Applied additional external APIs such as Resend for email notifications and incorporated Google Maps for improved location services, enhancing the overall functionality and user experience of the website.',
+    ],
+    tech: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Vite', 'Render'],
+    accentColor: 'rgba(241, 234, 99, 0.12)',
+    accentGlow: 'rgba(240, 198, 84, 0.25)',
+    initBg: 'linear-gradient(135deg, #f1ba67, #f7e69a)',
+    image: bixihomes,
+  },
   {
     company: 'Enabled Talent',
     role: 'Full Stack Developer',
     type: 'Co-op',
-    period: 'Jan 2026 – Present',
+    period: 'Jan 2026 – Apr 2026',
     description:
       'Working on the development of a centralized dashboard for the Enabled Talent website, providing real-time insights with student profiles, application tracking, and analytics for streamlined recruitment management.',
     achievements: [
@@ -16,7 +35,7 @@ const experiences = [
       'Made significant contributions in keeping documentation in tracking with the evolving codebase, ensuring clarity and maintainability for future developers.',
       'Collaborated closely with the design team to create an intuitive and visually appealing user interface using React, TypeScript, and Tailwind CSS, resulting in a faster deployment cycle.',
     ],
-    tech: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Vite', 'Render'],
+    tech: ['React', 'JavaScript', 'Node.js', 'Resend', 'Vite', 'Render'],
     accentColor: 'rgba(241, 99, 99, 0.12)',
     accentGlow: 'rgba(241, 99, 99, 0.25)',
     initBg: 'linear-gradient(135deg, #e96b6b, #ed3a3a)',

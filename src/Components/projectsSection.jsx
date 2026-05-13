@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { BrainCircuit, HousePlus } from 'lucide-react';
 
 const projects = [
   {
@@ -14,11 +15,7 @@ const projects = [
     link: 'https://github.com/TyLandry/Enabled-Talent-Career-Centre-Dashboard',
   },
   {
-    icon: (
-      <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-      </svg>
-    ),
+    icon: <HousePlus size={22} strokeWidth={1.7} aria-hidden="true" />,
     name: 'Bixihomes and Renovations Inc.',
     desc: 'A comprehensive website dedicated to showcasing the services and projects of Bixihomes and Renovations Inc.,',
     tech: ['JavaScript', 'Node.js', 'React', 'Tailwind', 'Vite', 'Render'],
@@ -26,14 +23,10 @@ const projects = [
     link: 'https://www.bixihomes.com',
   },
   {
-    icon: (
-      <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-      </svg>
-    ),
+    icon: <BrainCircuit size={22} strokeWidth={1.7} aria-hidden="true" />,
     name: 'Project Synthesis',
     desc: 'A local AI (will be cloud-based in the future) that helps users in their daily tasks such as scheduling, reminders, and information retrieval. It uses ollama for LLM and Open Wake Word Detection for voice activation.',
-    tech: ['React Native', 'Firebase', 'Tailwind'],
+    tech: ['Python', 'Pygame', 'Open Wake Word Detection', 'Ollama'],
     accentColor: 'rgba(244,63,94,0.08)',
     link: '#',
   },

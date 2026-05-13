@@ -108,8 +108,12 @@ node_modules
 # Keep only ui-ux-pro-max skill pack in repo
 !.codex/skills/
 !.codex/skills/ui-ux-pro-max/
+scripts
 !.codex/skills/ui-ux-pro-max/**
 
 # Ignore Python cache artifacts from skill scripts
 .codex/skills/ui-ux-pro-max/**/__pycache__/
 .codex/skills/ui-ux-pro-max/**/*.pyc
+.github/prompts/ui-ux-pro-max/
+ui-ux-skill
+prompt_documentation

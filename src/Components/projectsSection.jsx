@@ -23,7 +23,7 @@ const projects = [
     desc: 'A comprehensive website dedicated to showcasing the services and projects of Bixihomes and Renovations Inc.,',
     tech: ['JavaScript', 'Node.js', 'React', 'Tailwind', 'Vite', 'Render'],
     accentColor: 'rgba(16,185,129,0.08)',
-    link: '#',
+    link: 'https://www.bixihomes.com',
   },
   {
     icon: (

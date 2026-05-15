@@ -357,7 +357,7 @@ export const HeroSection = () => {
             opacity: 0.55,
           }}
         >
-          {['React', 'TypeScript', 'Node.js', 'C#', 'PostgreSQL'].map((tag) => (
+          {/* {['React', 'TypeScript', 'Node.js', 'C#', 'PostgreSQL'].map((tag) => (
             <span
               key={tag}
               style={{
@@ -374,7 +374,7 @@ export const HeroSection = () => {
             >
               {tag}
             </span>
-          ))}
+          ))} */}
         </div>
       </div>
 

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { BrainCircuit, HousePlus } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Activity, BrainCircuit, HousePlus } from 'lucide-react';
 
 const projects = [
   {
@@ -28,9 +28,17 @@ const projects = [
     desc: 'A local AI (will be cloud-based in the future) that helps users in their daily tasks such as scheduling, reminders, and information retrieval. It uses ollama for LLM and Open Wake Word Detection for voice activation.',
     tech: ['Python', 'FastAPI', 'Pygame', 'Open Wake Word Detection', 'Ollama'],
     accentColor: 'rgba(244,63,94,0.08)',
+    link: 'https://github.com/Agcaoili4/Project_Synthesis',
+  },
+    {
+    icon: <Activity size={22} strokeWidth={1.7} aria-hidden="true" />,
+    name: 'My GoodLife Fitness Pulse Tracker',
+    desc: 'A web application that allows user to track any GoodLife Fitness location with realtime information about live peak hours, busyness, and gives what are the best times to go based on the users preferences.',
+    tech: ['Azure', '.NET', 'TypeScript', 'Tailwind CSS', 'React'],
+    accentColor: 'rgba(14,165,233,0.08)',
     link: '#',
   },
-      {
+        {
     icon: (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" width="22" height="22">
       <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 0 1-.657.643 48.39 48.39 0 0 1-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 0 1-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 0 0-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 0 1-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 0 0 .657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 0 1-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 0 0 5.427-.63 48.05 48.05 0 0 0 .582-4.717.532.532 0 0 0-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.96.401v0a.656.656 0 0 0 .658-.663 48.422 48.422 0 0 0-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 0 1-.61-.58v0Z" />
@@ -39,146 +47,215 @@ const projects = [
     name: 'Memory Battle',
     desc: 'A game where players match pairs of cards to improve their memory. The game features multiple levels of difficulty, a timer, and a scoring system to track progress. It also has its own pvp and PvAI modes.',
     tech: ['C#', '.NET framework' ,'SQL Server'],
-    accentColor: 'rgba(244,63,94,0.08)',
-    link: '#',
+    accentColor: 'rgba(245,158,11,0.08)',
+    link: 'https://github.com/RenatoPaz/MemoryBattle',
   },
 ];
 
+const accentToSpotlight = (rgba) => rgba.replace(/,\s*[\d.]+\)\s*$/, ', 0.22)');
+
 const ProjectCard = ({ project, index }) => {
-  const ref = useRef(null);
+  const wrapRef = useRef(null);
+  const cardRef = useRef(null);
+  const rafRef = useRef(null);
   const [hovered, setHovered] = useState(false);
+  const [pressed, setPressed] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) ref.current?.classList.add('visible'); },
+      ([entry]) => { if (entry.isIntersecting) wrapRef.current?.classList.add('visible'); },
       { threshold: 0.1 }
     );
-    if (ref.current) observer.observe(ref.current);
+    if (wrapRef.current) observer.observe(wrapRef.current);
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => () => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+  }, []);
+
+  const handlePointerMove = useCallback((e) => {
+    if (e.pointerType !== 'mouse') return;
+    const card = cardRef.current;
+    if (!card) return;
+    const cx = e.clientX;
+    const cy = e.clientY;
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      const rect = card.getBoundingClientRect();
+      const px = (cx - rect.left) / rect.width;
+      const py = (cy - rect.top) / rect.height;
+      const rx = (0.5 - py) * 6;
+      const ry = (px - 0.5) * 6;
+      card.style.setProperty('--mx', `${px * 100}%`);
+      card.style.setProperty('--my', `${py * 100}%`);
+      card.style.setProperty('--rx', `${rx}deg`);
+      card.style.setProperty('--ry', `${ry}deg`);
+    });
+  }, []);
+
+  const handlePointerEnter = (e) => {
+    if (e.pointerType === 'mouse') setHovered(true);
+  };
+
+  const handlePointerLeave = () => {
+    setHovered(false);
+    setPressed(false);
+    const card = cardRef.current;
+    if (card) {
+      card.style.setProperty('--rx', '0deg');
+      card.style.setProperty('--ry', '0deg');
+    }
+  };
+
+  const handlePointerDown = (e) => {
+    setPressed(true);
+    if (e.pointerType !== 'mouse') {
+      setHovered(true);
+    }
+  };
+
+  const releasePress = () => setPressed(false);
+
+  const isPlaceholder = !project.link || project.link === '#';
+  const isExternal = !isPlaceholder && /^https?:\/\//.test(project.link);
+
+  const Tag = isPlaceholder ? 'div' : 'a';
+  const linkProps = isPlaceholder
+    ? { 'aria-disabled': 'true' }
+    : {
+        href: project.link,
+        ...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {}),
+        'aria-label': `View ${project.name}`,
+      };
+
   return (
     <div
-      ref={ref}
-      className="reveal"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        borderRadius: '1rem',
-        padding: '1.5rem',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1.25rem',
-        position: 'relative',
-        overflow: 'hidden',
-        cursor: 'pointer',
-        transitionDelay: `${index * 80}ms`,
-        background: 'var(--bg-card)',
-        border: '1px solid',
-        borderColor: hovered ? 'var(--border-hover)' : 'var(--border)',
-        boxShadow: hovered ? 'var(--card-hover-shadow)' : 'var(--card-shadow)',
-        transition: 'border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease',
-      }}
+      ref={wrapRef}
+      className="reveal project-card-wrap"
+      style={{ transitionDelay: `${index * 80}ms` }}
     >
-      {/* Hover gradient overlay */}
-      <div
+      <Tag
+        ref={cardRef}
+        className="project-card"
+        data-hovered={hovered ? 'true' : 'false'}
+        data-pressed={pressed ? 'true' : 'false'}
+        onPointerMove={handlePointerMove}
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
+        onPointerDown={handlePointerDown}
+        onPointerUp={releasePress}
+        onPointerCancel={releasePress}
         style={{
-          position: 'absolute',
-          inset: 0,
-          background: `radial-gradient(ellipse at top left, ${project.accentColor}, transparent 70%)`,
-          opacity: hovered ? 1 : 0,
-          transition: 'opacity 0.3s ease',
+          '--spot-color': accentToSpotlight(project.accentColor),
           borderRadius: '1rem',
-          pointerEvents: 'none',
-        }}
-      />
-
-      {/* Icon */}
-      <div
-        style={{
-          width: '2.75rem',
-          height: '2.75rem',
-          borderRadius: '0.75rem',
-          background: hovered ? 'var(--icon-box-hover)' : 'var(--icon-box-bg)',
-          color: 'var(--icon-color)',
+          padding: '1.5rem',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          flexDirection: 'column',
+          gap: '1.25rem',
           position: 'relative',
-          zIndex: 1,
-          transition: 'background 0.3s ease',
+          overflow: 'hidden',
+          cursor: isPlaceholder ? 'default' : 'pointer',
+          background: 'var(--bg-card)',
+          border: '1px solid',
+          borderColor: hovered ? 'var(--border-hover)' : 'var(--border)',
+          boxShadow: hovered ? 'var(--card-hover-shadow)' : 'var(--card-shadow)',
+          minHeight: '100%',
         }}
+        {...linkProps}
       >
-        {project.icon}
-      </div>
+        <div className="project-card-spotlight" aria-hidden="true" />
 
-      {/* Content */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1, position: 'relative', zIndex: 1 }}>
-        <h3 style={{ fontFamily: 'Archivo, sans-serif', fontWeight: 700, fontSize: '1.125rem', color: 'var(--text)', lineHeight: 1.3 }}>
-          {project.name}
-        </h3>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: 300, lineHeight: 1.6 }}>
-          {project.desc}
-        </p>
-      </div>
-
-      {/* Tech stack */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', position: 'relative', zIndex: 1 }}>
-        {project.tech.map((t) => (
-          <span
-            key={t}
-            style={{
-              padding: '0.25rem 0.625rem',
-              borderRadius: '0.375rem',
-              fontSize: '0.75rem',
-              fontWeight: 500,
-              background: 'var(--tech-bg)',
-              color: 'var(--tech-text)',
-              border: '1px solid var(--tech-border)',
-            }}
-          >
-            {t}
-          </span>
-        ))}
-      </div>
-
-      {/* View link */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 'auto', position: 'relative', zIndex: 1 }}>
-        <a
-          href={project.link}
+        <div
+          className="project-card-icon"
           style={{
-            fontSize: '0.875rem',
-            fontWeight: 600,
-            color: hovered ? 'var(--link-hover)' : 'var(--link-color)',
+            width: '2.75rem',
+            height: '2.75rem',
+            borderRadius: '0.75rem',
+            background: hovered ? 'var(--icon-box-hover)' : 'var(--icon-box-bg)',
+            color: 'var(--icon-color)',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.375rem',
-            cursor: 'pointer',
-            transition: 'color 0.3s ease',
-            textDecoration: 'none',
+            justifyContent: 'center',
+            position: 'relative',
+            zIndex: 1,
           }}
-          aria-label={`View ${project.name}`}
         >
-          View Project
-          <svg
-            width="14"
-            height="14"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            viewBox="0 0 24 24"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
+          {project.icon}
+        </div>
+
+        <div
+          className="project-card-layer"
+          style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1, position: 'relative', zIndex: 1 }}
+        >
+          <h3 style={{ fontFamily: 'Archivo, sans-serif', fontWeight: 700, fontSize: '1.125rem', color: 'var(--text)', lineHeight: 1.3 }}>
+            {project.name}
+          </h3>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: 300, lineHeight: 1.6 }}>
+            {project.desc}
+          </p>
+        </div>
+
+        <div
+          className="project-card-tech-row"
+          style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', position: 'relative', zIndex: 1 }}
+        >
+          {project.tech.map((t) => (
+            <span
+              key={t}
+              className="project-card-tech"
+              style={{
+                padding: '0.25rem 0.625rem',
+                borderRadius: '0.375rem',
+                fontSize: '0.75rem',
+                fontWeight: 500,
+                background: 'var(--tech-bg)',
+                color: 'var(--tech-text)',
+                border: '1px solid var(--tech-border)',
+              }}
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: 'auto', position: 'relative', zIndex: 1 }}>
+          <span
             style={{
-              transform: hovered ? 'translateX(3px)' : 'translateX(0)',
-              transition: 'transform 0.3s ease',
+              fontSize: '0.875rem',
+              fontWeight: 600,
+              color: hovered ? 'var(--link-hover)' : 'var(--link-color)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              transition: 'color 0.3s ease',
             }}
           >
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </a>
-      </div>
+            {isPlaceholder ? 'In Progress' : isExternal ? 'View project' : 'View project'}
+            {!isPlaceholder && (
+              <svg
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                viewBox="0 0 24 24"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+                style={{
+                  transform: hovered
+                    ? isExternal ? 'translate(3px, -3px)' : 'translateX(3px)'
+                    : 'translate(0, 0)',
+                  transition: 'transform 0.3s ease',
+                }}
+              >
+                <path d={isExternal ? 'M7 17L17 7M9 7h8v8' : 'M5 12h14M12 5l7 7-7 7'} />
+              </svg>
+            )}
+          </span>
+        </div>
+      </Tag>
     </div>
   );
 };
@@ -207,6 +284,7 @@ export const ProjectsSection = () => {
         <div className="projects-aurora-wave projects-aurora-wave-2" />
         <div className="projects-aurora-wave projects-aurora-wave-3" />
         <div className="projects-aurora-wave projects-aurora-wave-4" />
+        <div className="projects-aurora-wave projects-aurora-wave-5" />
         <div className="projects-aurora-noise" />
       </div>
 

@@ -84,7 +84,7 @@ export const LoadingScreen = ({ onDone }) => {
               backgroundClip: 'text',
             }}
           >
-            J
+            A
           </span>
         </div>
       </div>
@@ -102,7 +102,7 @@ export const LoadingScreen = ({ onDone }) => {
             color: 'var(--text)',
           }}
         >
-          Jansen
+          AJ
         </span>
         <span
           style={{

@@ -5,7 +5,7 @@ const skills = ['React', 'C#', 'PostgreSQL', 'TypeScript', 'Node.js', 'Tailwind 
 
 const stats = [
   { value: '4+', label: 'Years Experience' },
-  { value: '20+', label: 'Projects Built' },
+  { value: '10+', label: 'Projects Built' },
   { value: '8+', label: 'Technologies' },
 ];
 

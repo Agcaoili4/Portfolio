@@ -26,7 +26,7 @@ const projects = [
     icon: <BrainCircuit size={22} strokeWidth={1.7} aria-hidden="true" />,
     name: 'Project Synthesis',
     desc: 'A local AI (will be cloud-based in the future) that helps users in their daily tasks such as scheduling, reminders, and information retrieval. It uses ollama for LLM and Open Wake Word Detection for voice activation.',
-    tech: ['Python', 'Pygame', 'Open Wake Word Detection', 'Ollama'],
+    tech: ['Python', 'FastAPI', 'Pygame', 'Open Wake Word Detection', 'Ollama'],
     accentColor: 'rgba(244,63,94,0.08)',
     link: '#',
   },

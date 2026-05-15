@@ -858,42 +858,61 @@ export const ExperienceSection = () => {
               role="tablist"
               aria-label="Choose experience"
               style={{
+                position: 'relative',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '0.5rem',
                 width: '5.5rem',
+                height: '0.5rem',
                 flexShrink: 0,
               }}
             >
-              {experiences.map((exp, i) => {
-                const selected = i === visibleIndex;
-                return (
-                  <button
-                    key={i}
-                    role="tab"
-                    type="button"
-                    aria-selected={selected}
-                    aria-label={`Show ${exp.company}, ${exp.role}`}
-                    onClick={() => goToIndex(i)}
-                    className="exp-dot"
-                    style={{
-                      width: selected ? '1.75rem' : '0.5rem',
-                      height: '0.5rem',
-                      borderRadius: '9999px',
-                      border: 'none',
-                      padding: 0,
-                      cursor: 'pointer',
-                      background: selected ? 'var(--text)' : 'var(--date-border)',
-                      transition: selected
-                        ? `width 0.4s ${SPRING}, opacity 0.25s ease`
-                        : 'opacity 0.2s ease',
-                      opacity: selected ? 1 : 0.7,
-                      flexShrink: 0,
-                    }}
-                  />
-                );
-              })}
+              {/* Static gray dots — never animate, fully cross-browser stable. */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                {experiences.map((exp, i) => {
+                  const selected = i === visibleIndex;
+                  return (
+                    <button
+                      key={i}
+                      role="tab"
+                      type="button"
+                      aria-selected={selected}
+                      aria-label={`Show ${exp.company}, ${exp.role}`}
+                      onClick={() => goToIndex(i)}
+                      className="exp-dot"
+                      style={{
+                        width: '0.5rem',
+                        height: '0.5rem',
+                        borderRadius: '9999px',
+                        border: 'none',
+                        padding: 0,
+                        cursor: 'pointer',
+                        background: 'var(--date-border)',
+                        opacity: 0.5,
+                        flexShrink: 0,
+                      }}
+                    />
+                  );
+                })}
+              </div>
+              {/* Single sliding active pill — only ONE element animates, transform-based for Safari parity. */}
+              <span
+                aria-hidden="true"
+                className="exp-dot-indicator"
+                style={{
+                  position: 'absolute',
+                  left: '50%',
+                  top: '50%',
+                  width: '1.25rem',
+                  height: '0.5rem',
+                  borderRadius: '9999px',
+                  background: 'var(--text)',
+                  transform: `translate(calc(${visibleIndex - 1.5}rem - 50%), -50%)`,
+                  transition: `transform 0.4s ${SPRING}`,
+                  pointerEvents: 'none',
+                  willChange: 'transform',
+                }}
+              />
             </div>
             <button
               type="button"

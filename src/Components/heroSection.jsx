@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { DottedSurface } from '@/Components/ui/dotted-surface-lazy';
 
-const ROLES = ['Software Developer', 'Full Stack Engineer', 'Creative Problem Solver'];
+const ROLES = ['Software Developer', 'Full Stack Engineer', 'Creative Problem Solver', 'Backend Enthusiast', 'Tech Explorer'];
 const EXPLOSION_IDS = ['sphere-1', 'sphere-2', 'sphere-3', 'sphere-4', 'sphere-5', 'float-1', 'float-2', 'float-3'];
 const SPARK_OFFSETS = [
   { x: '-56px', y: '-26px', delay: '0ms' },
@@ -273,7 +273,7 @@ export const HeroSection = () => {
             textDecoration: 'none',
           }}
         >
-          <span className="hero-dot-pulse" />
+          <span className="hero-dot-pulse" aria-hidden="true" />
           <span
             style={{
               fontFamily: 'Space Grotesk, sans-serif',
@@ -284,7 +284,7 @@ export const HeroSection = () => {
               color: 'var(--badge-text)',
             }}
           >
-            AJ &mdash; Available for work
+            AJ &mdash; Available to work
           </span>
         </a>
 

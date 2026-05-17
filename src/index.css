@@ -795,18 +795,49 @@ a {
 
 /* ── Hero dot pulse (available indicator) ── */
 .hero-dot-pulse {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
+  position: relative;
+  display: inline-flex;
+  width: 10px;
+  height: 10px;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 10px;
   border-radius: 50%;
-  background: var(--dot-pulse-color);
-  box-shadow: 0 0 6px var(--dot-pulse-glow);
-  flex-shrink: 0;
-  animation: dot-pulse 2s ease-in-out infinite;
+  color: var(--dot-pulse-color);
 }
-@keyframes dot-pulse {
-  0%, 100% { box-shadow: 0 0 4px var(--dot-pulse-glow); }
-  50% { box-shadow: 0 0 10px var(--dot-pulse-glow); }
+.hero-dot-pulse::before,
+.hero-dot-pulse::after {
+  content: "";
+  position: absolute;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.hero-dot-pulse::before {
+  width: 8px;
+  height: 8px;
+  background: currentColor;
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, currentColor 18%, transparent),
+    0 0 12px var(--dot-pulse-glow);
+}
+.hero-dot-pulse::after {
+  inset: 0;
+  border: 1px solid currentColor;
+  box-shadow: 0 0 14px var(--dot-pulse-glow);
+  opacity: 0.58;
+  transform: scale(1);
+  animation: availability-pulse 1.85s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  will-change: transform, opacity;
+}
+@keyframes availability-pulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
+  72%, 100% {
+    opacity: 0;
+    transform: scale(2.45);
+  }
 }
 
 /* ── Hero dot-grid overlay ── */
@@ -1581,7 +1612,11 @@ a {
   .aurora-orb { animation: none; }
   .projects-aurora-wave { animation: none; }
   .loader-ring-outer, .loader-ring-inner { animation: none; }
-  .hero-dot-pulse { animation: none; }
+  .hero-dot-pulse::after {
+    animation: none;
+    opacity: 0.22;
+    transform: scale(1.75);
+  }
   .loader-name { animation: none; opacity: 1; }
   .orbit-ring, .orbit-float, .orbit-core { animation: none; }
   .theme-icon { transition: none; }

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Activity, BrainCircuit, HousePlus } from 'lucide-react';
+import { useReveal } from '../lib/useReveal';
 
 const projects = [
   {
@@ -55,20 +56,11 @@ const projects = [
 const accentToSpotlight = (rgba) => rgba.replace(/,\s*[\d.]+\)\s*$/, ', 0.22)');
 
 const ProjectCard = ({ project, index }) => {
-  const wrapRef = useRef(null);
+  const wrapRef = useReveal();
   const cardRef = useRef(null);
   const rafRef = useRef(null);
   const [hovered, setHovered] = useState(false);
   const [pressed, setPressed] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) wrapRef.current?.classList.add('visible'); },
-      { threshold: 0.1 }
-    );
-    if (wrapRef.current) observer.observe(wrapRef.current);
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => () => {
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -261,16 +253,7 @@ const ProjectCard = ({ project, index }) => {
 };
 
 export const ProjectsSection = () => {
-  const headerRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) headerRef.current?.classList.add('visible'); },
-      { threshold: 0.15 }
-    );
-    if (headerRef.current) observer.observe(headerRef.current);
-    return () => observer.disconnect();
-  }, []);
+  const headerRef = useReveal({ threshold: 0.15 });
 
   return (
     <section

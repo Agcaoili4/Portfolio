@@ -3,6 +3,7 @@ import enabledTalent from '../assets/enabledTalent.webp';
 import affinityMentorship from '../assets/affinityMentorship.webp';
 import goodlife from '../assets/goodlife.png';
 import bixihomes from '../assets/bixihomes.svg';
+import { useReveal } from '../lib/useReveal';
 
 const experiences = [
   {
@@ -480,7 +481,7 @@ const ExperienceCard = ({ exp, slot, isActive, isClone, isExpanded, onToggle, is
 };
 
 export const ExperienceSection = () => {
-  const headerRef = useRef(null);
+  const headerRef = useReveal({ threshold: 0.15 });
   const trackRef = useRef(null);
   const carouselRef = useRef(null);
   const interactionTimerRef = useRef(null);
@@ -520,17 +521,6 @@ export const ExperienceSection = () => {
   useEffect(() => {
     expandedSlotRef.current = expandedSlot;
   }, [expandedSlot]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) headerRef.current?.classList.add('visible');
-      },
-      { threshold: 0.15 }
-    );
-    if (headerRef.current) observer.observe(headerRef.current);
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');

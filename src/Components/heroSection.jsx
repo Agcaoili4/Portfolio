@@ -50,15 +50,52 @@ export const HeroSection = () => {
   }, []);
 
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    let visible = true;
     const animate = () => {
-      setOrb((prev) => ({
-        x: prev.x + (mouseRef.current.x - prev.x) * 0.06,
-        y: prev.y + (mouseRef.current.y - prev.y) * 0.06,
-      }));
+      setOrb((prev) => {
+        const nx = prev.x + (mouseRef.current.x - prev.x) * 0.06;
+        const ny = prev.y + (mouseRef.current.y - prev.y) * 0.06;
+        if (Math.abs(nx - prev.x) < 0.0001 && Math.abs(ny - prev.y) < 0.0001) return prev;
+        return { x: nx, y: ny };
+      });
       frameRef.current = requestAnimationFrame(animate);
     };
-    frameRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frameRef.current);
+
+    const start = () => {
+      if (frameRef.current) return;
+      frameRef.current = requestAnimationFrame(animate);
+    };
+    const stop = () => {
+      if (frameRef.current) {
+        cancelAnimationFrame(frameRef.current);
+        frameRef.current = null;
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) start();
+        else stop();
+      },
+      { threshold: 0 }
+    );
+    observer.observe(section);
+
+    const onVisibility = () => {
+      if (document.hidden || !visible) stop();
+      else start();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
+      stop();
+    };
   }, []);
 
   useEffect(() => {
@@ -346,36 +383,6 @@ export const HeroSection = () => {
           </a>
         </div>
 
-        {/* Faint tech tags */}
-        <div
-          aria-hidden="true"
-          style={{
-            display: 'flex',
-            gap: '0.5rem',
-            flexWrap: 'wrap',
-            marginTop: '0.75rem',
-            opacity: 0.55,
-          }}
-        >
-          {/* {['React', 'TypeScript', 'Node.js', 'C#', 'PostgreSQL'].map((tag) => (
-            <span
-              key={tag}
-              style={{
-                fontFamily: 'Space Grotesk, sans-serif',
-                fontSize: '0.68rem',
-                fontWeight: 500,
-                letterSpacing: '0.08em',
-                color: 'var(--tag-text)',
-                background: 'var(--tag-bg)',
-                border: '1px solid var(--tag-border)',
-                borderRadius: '0.375rem',
-                padding: '0.2rem 0.55rem',
-              }}
-            >
-              {tag}
-            </span>
-          ))} */}
-        </div>
       </div>
 
       {/* Scroll indicator */}

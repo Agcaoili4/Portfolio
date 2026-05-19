@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
+import { useReveal } from '../lib/useReveal';
 
 const socials = [
   {
@@ -22,25 +23,10 @@ const socials = [
 ];
 
 export const ContactSection = () => {
-  const sectionRef = useRef(null);
-  const contentRef = useRef(null);
+  const contentRef = useReveal();
   const [status, setStatus] = useState('idle');
   const [fields, setFields] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          contentRef.current?.classList.add('visible');
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
 
   const validate = () => {
     const e = {};
@@ -65,7 +51,6 @@ export const ContactSection = () => {
   return (
     <section
       id="contact"
-      ref={sectionRef}
       className="w-full relative overflow-hidden section-responsive"
       style={{ padding: '8rem 1.5rem' }}
     >

@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
 import profileImg from '../assets/Profile.jpg';
+import { useReveal } from '../lib/useReveal';
 
 const skills = ['React', 'C#', 'PostgreSQL', 'TypeScript', 'Node.js', 'Tailwind CSS', '.NET', 'REST APIs'];
 
@@ -8,21 +8,6 @@ const stats = [
   { value: '10+', label: 'Projects Built' },
   { value: '8+', label: 'Technologies' },
 ];
-
-const useReveal = (options = {}) => {
-  const ref = useRef(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) el.classList.add('visible'); },
-      { threshold: options.threshold ?? 0.1 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-  return ref;
-};
 
 export const AboutSection = () => {
   const profileRef = useReveal();

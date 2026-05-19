@@ -61,9 +61,7 @@ export const TopNav = () => {
   const links = ['Home', 'About', 'Experience', 'Projects', 'Contact'];
   const isDark = theme === 'dark';
 
-  const handleNavClick = () => {
-    setMenuOpen(false);
-  };
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <>
@@ -174,7 +172,7 @@ export const TopNav = () => {
               href={`#${link.toLowerCase()}`}
               className={`mobile-menu-link${active === link.toLowerCase() ? ' is-active' : ''}`}
               style={{ transitionDelay: menuOpen ? `${60 + i * 50}ms` : '0ms' }}
-              onClick={() => handleNavClick(link)}
+              onClick={closeMenu}
             >
               <span className="mobile-menu-link-num">0{i + 1}</span>
               <span className="mobile-menu-link-text">{link}</span>

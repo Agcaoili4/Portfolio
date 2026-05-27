@@ -378,6 +378,17 @@ export const HeroSection = () => {
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </a>
+          <a
+            href="/Jansen-Agcaoili-Resume.pdf"
+            download
+            className="cta-btn"
+            aria-label="Download résumé as PDF"
+          >
+            Download Resume
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M12 4v12m0 0l-4-4m4 4l4-4M5 20h14" />
+            </svg>
+          </a>
           <a href="#contact" className="cta-accent">
             Get in Touch
           </a>

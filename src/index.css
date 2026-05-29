@@ -1586,11 +1586,6 @@ a {
     padding: 4rem 1rem !important;
   }
 
-  /* Hero name — cap for small screens */
-  .hero-name {
-    font-size: clamp(3.2rem, 13vw, 5rem);
-  }
-
   /* Section titles — smaller on mobile */
   .section-title {
     font-size: clamp(2rem, 8vw, 2.75rem);
@@ -1825,10 +1820,6 @@ a {
 
 /* ── Very small screens (≤ 400px) ── */
 @media (max-width: 400px) {
-  .hero-name {
-    font-size: 2.8rem;
-  }
-
   /* Stats — stack to 1 column on very small */
   .stats-grid {
     grid-template-columns: repeat(3, 1fr) !important;

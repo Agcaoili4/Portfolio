@@ -293,38 +293,6 @@ export const HeroSection = () => {
         className="reveal relative flex flex-col items-center text-center gap-6 px-6 w-full md:items-start md:text-left"
         style={{ maxWidth: '1200px', zIndex: 2 }}
       >
-        {/* Status badge link */}
-        <a
-          href="https://www.linkedin.com/in/jansen-agcaoili/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="View Jansen's LinkedIn profile"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            background: 'var(--badge-bg)',
-            border: '1px solid var(--badge-border)',
-            borderRadius: '9999px',
-            padding: '0.35rem 1rem',
-            textDecoration: 'none',
-          }}
-        >
-          <span className="hero-dot-pulse" aria-hidden="true" />
-          <span
-            style={{
-              fontFamily: 'Space Grotesk, sans-serif',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--badge-text)',
-            }}
-          >
-            AJ &mdash; Available to work
-          </span>
-        </a>
-
         {/* Hero name */}
         <h1 className="hero-name">WELCOME</h1>
 

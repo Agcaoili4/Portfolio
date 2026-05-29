@@ -20,8 +20,8 @@ dist-ssr
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
 *.sw?
+.vs/
 
 # env files
 .env
@@ -82,18 +82,23 @@ terraform.tfstate*
 # .NET build artifacts
 **/bin/
 **/obj/
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
 
-#Node modules
-node_modules
+# Frontend/test artifacts
+coverage/
+.vite/
+.vercel/
 
-#Other libraries and extensions that doesnt need to be tracked
-.claude
+# Agent, prompt, and local tool workspaces
+.claude/
 .agent/
 .codebuddy/
 .continue/
 .cursor/
 .codex/
-.codebuddy/
 .gemini/
 .kiro/
 .opencode/
@@ -101,21 +106,12 @@ node_modules
 .roo/
 .trae/
 .windsurf/
+.superpowers/
 
-# Ignore Codex workspace metadata by default
-.codex/*
-
-# Keep only ui-ux-pro-max skill pack in repo
-!.codex/skills/
-!.codex/skills/ui-ux-pro-max/
-scripts
-!.codex/skills/ui-ux-pro-max/**
-
-# Ignore Python cache artifacts from skill scripts
-.codex/skills/ui-ux-pro-max/**/__pycache__/
-.codex/skills/ui-ux-pro-max/**/*.pyc
-.github/prompts/ui-ux-pro-max/
-ui-ux-skill
-prompt_documentation
-docs
-.superpowers
+# Prompt/superpowers drafts and generated planning docs
+.github/prompts/
+docs/superpowers/
+prompt_documentation/
+prompts/
+*.prompt.md
+ui-ux-skill/

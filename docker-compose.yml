@@ -1,0 +1,17 @@
+# Sets up the PostgreSQL database for the contactAPI backend
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: contactapi
+    environment:
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: contactapi
+    ports:
+      - "5433:5432"
+    volumes:
+     - "pgdata:/var/lib/postgresql/data"
+    restart: unless-stopped
+
+volumes:
+  pgdata:

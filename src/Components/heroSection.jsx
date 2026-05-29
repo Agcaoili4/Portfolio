@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { DottedSurface } from '@/Components/ui/dotted-surface-lazy';
 
-const ROLES = ['Software Developer', 'Full Stack Engineer', 'Creative Problem Solver', 'Backend Enthusiast', 'Tech Explorer'];
 const EXPLOSION_IDS = ['sphere-1', 'sphere-2', 'sphere-3', 'sphere-4', 'sphere-5', 'float-1', 'float-2', 'float-3'];
 const SPARK_OFFSETS = [
   { x: '-56px', y: '-26px', delay: '0ms' },
@@ -25,8 +24,6 @@ export const HeroSection = () => {
   const mouseRef = useRef({ x: 0, y: 0 });
 
   const [orb, setOrb] = useState({ x: 0, y: 0 });
-  const [roleIdx, setRoleIdx] = useState(0);
-  const [roleVisible, setRoleVisible] = useState(true);
   const [cursor, setCursor] = useState({ x: -999, y: -999 });
   const [sceneBurst, setSceneBurst] = useState(false);
   const [explosions, setExplosions] = useState(() =>
@@ -36,17 +33,6 @@ export const HeroSection = () => {
   useEffect(() => {
     const t = setTimeout(() => contentRef.current?.classList.add('visible'), 120);
     return () => clearTimeout(t);
-  }, []);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setRoleVisible(false);
-      setTimeout(() => {
-        setRoleIdx((i) => (i + 1) % ROLES.length);
-        setRoleVisible(true);
-      }, 380);
-    }, 3000);
-    return () => clearInterval(id);
   }, []);
 
   useEffect(() => {
@@ -290,58 +276,47 @@ export const HeroSection = () => {
       {/* Content — full width, left-aligned on desktop */}
       <div
         ref={contentRef}
-        className="reveal relative flex flex-col items-center text-center gap-6 px-6 w-full md:items-start md:text-left"
+        className="reveal relative flex flex-col items-center text-center px-6 w-full md:items-start md:text-left"
         style={{ maxWidth: '1200px', zIndex: 2 }}
       >
-        {/* Hero name */}
-        <h1 className="hero-name">WELCOME</h1>
+        {/* Name — the page's real H1 */}
+        <h1 className="hero-name">Jansen Agcaoili</h1>
 
-        {/* Typewriter role */}
-        <div style={{ height: '1.8rem', display: 'flex', alignItems: 'center' }}>
-          <p
-            style={{
-              fontFamily: 'Space Grotesk, sans-serif',
-              fontSize: 'clamp(0.9rem, 2.5vw, 1.1rem)',
-              fontWeight: 500,
-              color: 'var(--text-accent)',
-              letterSpacing: '0.02em',
-              opacity: roleVisible ? 1 : 0,
-              transform: roleVisible ? 'translateY(0)' : 'translateY(5px)',
-              transition: 'opacity 0.35s ease, transform 0.35s ease',
-            }}
-          >
-            {ROLES[roleIdx]}
-          </p>
-        </div>
-
-        {/* Description */}
-        <p
-          style={{
-            fontFamily: 'Space Grotesk, sans-serif',
-            color: 'var(--text-secondary)',
-            fontSize: 'clamp(0.9rem, 2vw, 1.1rem)',
-            fontWeight: 300,
-            maxWidth: '34rem',
-            lineHeight: 1.8,
-          }}
-        >
-          Building robust and elegant design along with secure and efficient code.
-          I thrive with the challenge of tackling the unknown.
+        {/* Role line — single, no rotation */}
+        <p className="hero-role">
+          Software Developer
+          <span aria-hidden="true"> &mdash; </span>
+          <span className="hero-role__accent">backend-leaning full-stack</span>
         </p>
 
-        {/* CTAs */}
-        <div
-          className="hero-ctas"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '1rem',
-            marginTop: '0.5rem',
-            flexWrap: 'wrap',
-          }}
-        >
-          <a href="#projects" className="cta-btn">
-            View My Work
+        {/* Tagline */}
+        <p className="hero-tagline">
+          I build resilient backends and the polished interfaces that sit on top of them.
+        </p>
+
+        {/* Location chip */}
+        <div className="hero-location" aria-label="Based in Calgary, Alberta">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+          <span>Calgary, AB</span>
+        </div>
+
+        {/* CTAs — primary solid + ghost */}
+        <div className="hero-ctas">
+          <a href="#projects" className="cta-primary">
+            View work
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
@@ -352,13 +327,10 @@ export const HeroSection = () => {
             className="cta-btn"
             aria-label="Download résumé as PDF"
           >
-            Download Resume
+            Résumé
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M12 4v12m0 0l-4-4m4 4l4-4M5 20h14" />
             </svg>
-          </a>
-          <a href="#contact" className="cta-accent">
-            Get in Touch
           </a>
         </div>
 

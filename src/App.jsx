@@ -5,6 +5,7 @@ import { LoadingScreen } from './Components/loadingScreen';
 import { ThemeProvider } from './Components/ThemeContext';
 import { SmoothScroll } from './Components/SmoothScroll';
 import { ScrollProgress } from './Components/ScrollProgress';
+import { AvailabilityBadge } from './Components/AvailabilityBadge';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -17,6 +18,7 @@ function App() {
         <ScrollProgress />
         <HomeLayout />
       </SmoothScroll>
+      <AvailabilityBadge />
     </ThemeProvider>
   );
 }

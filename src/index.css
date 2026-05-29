@@ -2192,3 +2192,107 @@ a {
     animation: none;
   }
 }
+
+/* ── Hero role line (replaces typewriter) ── */
+.hero-role {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+  margin: 1rem 0 0;
+}
+.hero-role__accent {
+  color: var(--text-accent);
+}
+
+/* ── Hero tagline (replaces description) ── */
+.hero-tagline {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  max-width: 36ch;
+  margin: 1.5rem 0 0;
+}
+
+/* ── Hero location chip ── */
+.hero-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 1.25rem 0 0;
+  padding: 0.4rem 0.85rem 0.4rem 0.7rem;
+  background: rgba(79, 70, 229, 0.08);
+  border: 1px solid rgba(79, 70, 229, 0.22);
+  border-radius: 9999px;
+  color: var(--text-secondary);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.hero-location svg {
+  color: var(--text-accent);
+  flex-shrink: 0;
+}
+
+/* ── Hero CTAs stack ── */
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+/* ── Primary CTA (solid) ── */
+.cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 9999px;
+  background: #ffffff;
+  color: #0b0f1a;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  cursor: pointer;
+}
+.cta-primary:hover,
+.cta-primary:focus-visible {
+  background: #f1f5f9;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.12);
+}
+.cta-primary:focus-visible {
+  outline: 2px solid var(--text-accent, #a5b4fc);
+  outline-offset: 3px;
+}
+
+/* Light-theme adjustment: in light mode a white CTA disappears, flip to dark */
+[data-theme="light"] .cta-primary {
+  background: #0b0f1a;
+  color: #ffffff;
+  border-color: #0b0f1a;
+}
+[data-theme="light"] .cta-primary:hover,
+[data-theme="light"] .cta-primary:focus-visible {
+  background: #1e293b;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-primary {
+    transition: none;
+  }
+  .cta-primary:hover,
+  .cta-primary:focus-visible {
+    transform: none;
+  }
+}

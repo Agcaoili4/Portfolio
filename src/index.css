@@ -341,10 +341,10 @@ a {
 /* ── Hero name ── */
 .hero-name {
   font-family: "Archivo", sans-serif;
-  font-size: clamp(5rem, 14vw, 11rem);
+  font-size: clamp(2.75rem, 9vw, 6rem);
   font-weight: 900;
   letter-spacing: -0.04em;
-  line-height: 0.92;
+  line-height: 0.95;
   background: linear-gradient(135deg, var(--hero-gradient-from) 40%, var(--hero-gradient-to));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

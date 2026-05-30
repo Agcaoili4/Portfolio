@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { DottedSurface } from '@/Components/ui/dotted-surface-lazy';
 
+const ACCENT_ROLES = ['backend-leaning full-stack', 'systems thinker', 'API craftsman'];
 const EXPLOSION_IDS = ['sphere-1', 'sphere-2', 'sphere-3', 'sphere-4', 'sphere-5', 'float-1', 'float-2', 'float-3'];
 const SPARK_OFFSETS = [
   { x: '-56px', y: '-26px', delay: '0ms' },
@@ -24,6 +25,8 @@ export const HeroSection = () => {
   const mouseRef = useRef({ x: 0, y: 0 });
 
   const [orb, setOrb] = useState({ x: 0, y: 0 });
+  const [accentIdx, setAccentIdx] = useState(0);
+  const [accentVisible, setAccentVisible] = useState(true);
   const [cursor, setCursor] = useState({ x: -999, y: -999 });
   const [sceneBurst, setSceneBurst] = useState(false);
   const [explosions, setExplosions] = useState(() =>
@@ -33,6 +36,18 @@ export const HeroSection = () => {
   useEffect(() => {
     const t = setTimeout(() => contentRef.current?.classList.add('visible'), 120);
     return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const id = setInterval(() => {
+      setAccentVisible(false);
+      setTimeout(() => {
+        setAccentIdx((i) => (i + 1) % ACCENT_ROLES.length);
+        setAccentVisible(true);
+      }, 380);
+    }, 2600);
+    return () => clearInterval(id);
   }, []);
 
   useEffect(() => {
@@ -286,7 +301,12 @@ export const HeroSection = () => {
         <p className="hero-role">
           Software Developer
           <span aria-hidden="true"> &mdash; </span>
-          <span className="hero-role__accent">backend-leaning full-stack</span>
+          <span
+            className={`hero-role__accent${accentVisible ? '' : ' is-fading'}`}
+            aria-live="polite"
+          >
+            {ACCENT_ROLES[accentIdx]}
+          </span>
         </p>
 
         {/* Tagline */}

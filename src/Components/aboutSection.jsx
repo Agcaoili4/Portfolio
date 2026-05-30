@@ -4,7 +4,7 @@ import { useReveal } from '../lib/useReveal';
 const skills = ['React', 'C#', 'PostgreSQL', 'TypeScript', 'Node.js', 'Tailwind CSS', '.NET', 'REST APIs'];
 
 const stats = [
-  { value: '4+', label: 'Years Experience' },
+  { value: '2+', label: 'Years Experience' },
   { value: '10+', label: 'Projects Built' },
   { value: '8+', label: 'Technologies' },
 ];

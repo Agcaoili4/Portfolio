@@ -1431,9 +1431,6 @@ a {
   font-size: 1rem;
   font-weight: 500;
   position: relative;
-  transition:
-    color 0.2s ease,
-    background 0.2s ease;
   /* Stagger reveal */
   opacity: 0;
   transform: translateX(-12px);

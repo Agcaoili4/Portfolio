@@ -67,13 +67,14 @@ export const TopNav = () => {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center px-4 pt-4">
         <nav
-          className={`glass-nav w-full rounded-2xl flex items-center transition-all duration-300 ${
+          className={`glass-nav w-full rounded-2xl flex items-center ${
             scrolled ? 'shadow-2xl' : ''
           }`}
           style={{
             maxWidth: '820px',
             padding: '0.625rem 1.25rem',
             boxShadow: scrolled ? `0 8px 32px var(--nav-shadow)` : undefined,
+            transition: 'box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease',
           }}
         >
           {/* Theme toggle */}

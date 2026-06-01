@@ -9,12 +9,14 @@ export const TopNav = () => {
   const menuRef = useRef(null);
 
   useEffect(() => {
-    const onScroll = () => {
+    const ids = ['contact', 'projects', 'experience', 'about', 'home'];
+    let ticking = false;
+
+    const compute = () => {
+      ticking = false;
       setScrolled(window.scrollY > 30);
 
-      const ids = ['contact', 'projects', 'experience', 'about', 'home'];
       const trigger = window.innerHeight * 0.35;
-
       for (const id of ids) {
         const el = document.getElementById(id);
         if (el && el.getBoundingClientRect().top <= trigger) {
@@ -22,12 +24,17 @@ export const TopNav = () => {
           return;
         }
       }
-
       setActive('home');
     };
 
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(compute);
+    };
+
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    compute();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 

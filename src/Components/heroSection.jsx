@@ -24,10 +24,17 @@ export const HeroSection = () => {
   const sceneBurstTimerRef = useRef(null);
   const mouseRef = useRef({ x: 0, y: 0 });
 
-  const [orb, setOrb] = useState({ x: 0, y: 0 });
+  // Refs for direct DOM style mutation (60fps without React renders)
+  const cursorRef = useRef(null);
+  const auroraOrb1Ref = useRef(null);
+  const auroraOrb2Ref = useRef(null);
+  const auroraOrb3Ref = useRef(null);
+  const auroraOrb4Ref = useRef(null);
+  const orbitSceneRef = useRef(null);
+  const orbStateRef = useRef({ x: 0, y: 0 });
+
   const [accentIdx, setAccentIdx] = useState(0);
   const [accentVisible, setAccentVisible] = useState(true);
-  const [cursor, setCursor] = useState({ x: -999, y: -999 });
   const [sceneBurst, setSceneBurst] = useState(false);
   const [explosions, setExplosions] = useState(() =>
     EXPLOSION_IDS.reduce((acc, id) => ({ ...acc, [id]: false }), {})
@@ -56,12 +63,22 @@ export const HeroSection = () => {
 
     let visible = true;
     const animate = () => {
-      setOrb((prev) => {
-        const nx = prev.x + (mouseRef.current.x - prev.x) * 0.06;
-        const ny = prev.y + (mouseRef.current.y - prev.y) * 0.06;
-        if (Math.abs(nx - prev.x) < 0.0001 && Math.abs(ny - prev.y) < 0.0001) return prev;
-        return { x: nx, y: ny };
-      });
+      const prev = orbStateRef.current;
+      const nx = prev.x + (mouseRef.current.x - prev.x) * 0.06;
+      const ny = prev.y + (mouseRef.current.y - prev.y) * 0.06;
+      if (Math.abs(nx - prev.x) > 0.0001 || Math.abs(ny - prev.y) > 0.0001) {
+        orbStateRef.current = { x: nx, y: ny };
+        const o1 = auroraOrb1Ref.current;
+        const o2 = auroraOrb2Ref.current;
+        const o3 = auroraOrb3Ref.current;
+        const o4 = auroraOrb4Ref.current;
+        const scene = orbitSceneRef.current;
+        if (o1) o1.style.transform = `translate(${nx * -32}px, ${ny * -22}px)`;
+        if (o2) o2.style.transform = `translate(${nx * 24}px, ${ny * 28}px)`;
+        if (o3) o3.style.transform = `translate(${nx * -14}px, ${ny * -18}px)`;
+        if (o4) o4.style.transform = `translate(${nx * 20}px, ${ny * 14}px)`;
+        if (scene) scene.style.transform = `rotateY(${nx * 12}deg) rotateX(${ny * -12}deg)`;
+      }
       frameRef.current = requestAnimationFrame(animate);
     };
 
@@ -113,12 +130,18 @@ export const HeroSection = () => {
       x: (e.clientX - rect.left) / rect.width - 0.5,
       y: (e.clientY - rect.top) / rect.height - 0.5,
     };
-    setCursor({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    const spotlight = cursorRef.current;
+    if (spotlight) {
+      spotlight.style.left = `${e.clientX - rect.left}px`;
+      spotlight.style.top = `${e.clientY - rect.top}px`;
+      spotlight.style.opacity = '1';
+    }
   };
 
   const handleMouseLeave = () => {
     mouseRef.current = { x: 0, y: 0 };
-    setCursor({ x: -999, y: -999 });
+    const spotlight = cursorRef.current;
+    if (spotlight) spotlight.style.opacity = '0';
   };
 
   const triggerExplosion = (id) => {
@@ -156,13 +179,14 @@ export const HeroSection = () => {
       onMouseLeave={handleMouseLeave}
       className="relative w-full flex flex-col items-center justify-center min-h-screen overflow-hidden"
     >
-      {/* Cursor spotlight */}
+      {/* Cursor spotlight — mouse-driven via ref, no React state */}
       <div
+        ref={cursorRef}
         aria-hidden="true"
         style={{
           position: 'absolute',
-          left: cursor.x,
-          top: cursor.y,
+          left: '-999px',
+          top: '-999px',
           width: '500px',
           height: '500px',
           transform: 'translate(-50%, -50%)',
@@ -170,17 +194,17 @@ export const HeroSection = () => {
           borderRadius: '50%',
           pointerEvents: 'none',
           zIndex: 1,
-          opacity: cursor.x === -999 ? 0 : 1,
+          opacity: 0,
           transition: 'opacity 0.4s ease',
         }}
       />
 
-      {/* Aurora background with mouse parallax */}
+      {/* Aurora background — mouse parallax via direct style writes in animate() */}
       <div className="aurora-bg" aria-hidden="true">
-        <div className="aurora-orb aurora-orb-1" style={{ transform: `translate(${orb.x * -32}px, ${orb.y * -22}px)` }} />
-        <div className="aurora-orb aurora-orb-2" style={{ transform: `translate(${orb.x * 24}px, ${orb.y * 28}px)` }} />
-        <div className="aurora-orb aurora-orb-3" style={{ transform: `translate(${orb.x * -14}px, ${orb.y * -18}px)` }} />
-        <div className="aurora-orb aurora-orb-4" style={{ transform: `translate(${orb.x * 20}px, ${orb.y * 14}px)` }} />
+        <div ref={auroraOrb1Ref} className="aurora-orb aurora-orb-1" />
+        <div ref={auroraOrb2Ref} className="aurora-orb aurora-orb-2" />
+        <div ref={auroraOrb3Ref} className="aurora-orb aurora-orb-3" />
+        <div ref={auroraOrb4Ref} className="aurora-orb aurora-orb-4" />
         <div className="aurora-noise" />
       </div>
 
@@ -200,10 +224,8 @@ export const HeroSection = () => {
         }}
       >
         <div
+          ref={orbitSceneRef}
           className={`hero-orbit-scene${sceneBurst ? ' is-burst' : ''}`}
-          style={{
-            transform: `rotateY(${orb.x * 12}deg) rotateX(${orb.y * -12}deg)`,
-          }}
         >
           {/* Central glowing sphere */}
           <div className="orbit-core" />

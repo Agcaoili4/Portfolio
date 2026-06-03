@@ -1,3 +1,4 @@
+using ContactApi.Infrastructure;
 using ContactApi.Models.Dtos;
 using ContactApi.Services;
 using FluentValidation;
@@ -31,7 +32,8 @@ public static class ContactEndpoints
                 : Results.BadRequest(new { error = result.FailureReason });
         })
         .WithName("SubmitContact")
-        .WithTags("Contact");
+        .WithTags("Contact")
+        .RequireRateLimiting(RateLimitingSetup.ContactPolicy);
 
         return app;
     }

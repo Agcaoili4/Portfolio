@@ -1,4 +1,5 @@
 using ContactApi.Data;
+using ContactApi.Endpoints;
 using ContactApi.Services;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +25,9 @@ if (!app.Environment.IsEnvironment("Testing"))
     db.Database.Migrate();
 }
 
-app.MapGet("/api/health", () => Results.Ok(new { ok = true, service = "ContactAPI" }))
-    .WithName("HealthCheck")
-    .WithTags("HealthCheck");
+app.MapHealthEndpoints();
+app.MapContactEndpoints();
 
 app.Run();
+
+public partial class Program { }

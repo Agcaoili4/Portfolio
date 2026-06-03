@@ -1,0 +1,33 @@
+name: backend
+
+on:
+  pull_request:
+    paths:
+      - 'backend/**'
+      - 'Dockerfile'
+      - '.dockerignore'
+      - '.github/workflows/backend.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - 'Dockerfile'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore backend/ContactApi.Tests/ContactApi.Tests.csproj
+
+      - name: Build
+        run: dotnet build backend/ContactApi.Tests/ContactApi.Tests.csproj --no-restore -c Release
+
+      - name: Test
+        run: dotnet test backend/ContactApi.Tests/ContactApi.Tests.csproj --no-build -c Release --logger "console;verbosity=normal"

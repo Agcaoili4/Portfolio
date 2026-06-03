@@ -27,6 +27,10 @@ export const ContactSection = () => {
   const [status, setStatus] = useState('idle');
   const [fields, setFields] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState('');
+
+  const API_URL = import.meta.env.VITE_API_URL;
+  const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY;
 
   const validate = () => {
     const e = {};
@@ -34,18 +38,43 @@ export const ContactSection = () => {
     if (!fields.email.trim()) e.email = 'Email is required.';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) e.email = 'Enter a valid email.';
     if (!fields.message.trim()) e.message = 'Message is required.';
+    else if (fields.message.trim().length < 10) e.message = 'Message must be at least 10 characters.';
     return e;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitError('');
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setErrors({});
+
+    const turnstileToken = window.turnstile?.getResponse() || '';
+    if (!turnstileToken) {
+      setSubmitError('Please complete the bot check before sending.');
+      return;
+    }
+
     setStatus('sending');
-    await new Promise((r) => setTimeout(r, 1200));
-    setStatus('sent');
-    setFields({ name: '', email: '', message: '' });
+    try {
+      const resp = await fetch(`${API_URL}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...fields, turnstileToken }),
+      });
+      if (!resp.ok) {
+        const problem = await resp.json().catch(() => ({}));
+        const msg = problem.title || problem.error || `Request failed (${resp.status}).`;
+        throw new Error(msg);
+      }
+      setStatus('sent');
+      setFields({ name: '', email: '', message: '' });
+      window.turnstile?.reset();
+    } catch (err) {
+      setStatus('idle');
+      setSubmitError(err.message || 'Something went wrong. Please try again.');
+      window.turnstile?.reset();
+    }
   };
 
   return (
@@ -154,6 +183,24 @@ export const ContactSection = () => {
               />
               {errors.message && <span style={{ color: '#ef4444', fontSize: '0.75rem' }}>{errors.message}</span>}
             </div>
+
+            <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} style={{ marginTop: '0.25rem' }} />
+
+            {submitError && (
+              <div
+                role="alert"
+                style={{
+                  color: '#ef4444',
+                  fontSize: '0.875rem',
+                  padding: '0.75rem 1rem',
+                  border: '1px solid rgba(239,68,68,0.4)',
+                  borderRadius: '0.75rem',
+                  background: 'rgba(239,68,68,0.08)',
+                }}
+              >
+                {submitError}
+              </div>
+            )}
 
             <button
               type="submit"

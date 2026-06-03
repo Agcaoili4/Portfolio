@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: contactapi
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /api/health/ready
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: AllowedOrigins
+        sync: false
+      - key: ConnectionStrings__Default
+        sync: false
+      - key: Resend__ApiKey
+        sync: false
+      - key: Resend__FromAddress
+        sync: false
+      - key: Resend__ToAddress
+        sync: false
+      - key: Turnstile__SecretKey
+        sync: false
+      - key: Turnstile__VerifyUrl
+        value: https://challenges.cloudflare.com/turnstile/v0/siteverify

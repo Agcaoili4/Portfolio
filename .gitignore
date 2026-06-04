@@ -61,6 +61,7 @@ id_rsa.pub
 secrets/
 private/
 credentials/
+secret_key.txt
 
 # Cloud/IaC local credentials and state
 .aws/

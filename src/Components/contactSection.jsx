@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useReveal } from '../lib/useReveal';
 
 const socials = [
@@ -28,9 +28,45 @@ export const ContactSection = () => {
   const [fields, setFields] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState('');
+  const turnstileRef = useRef(null);
+  const widgetIdRef = useRef(null);
 
   const API_URL = import.meta.env.VITE_API_URL;
   const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+
+  useEffect(() => {
+    let cancelled = false;
+    let attempts = 0;
+
+    const tryRender = () => {
+      if (cancelled) return;
+      if (!window.turnstile || typeof window.turnstile.render !== 'function') {
+        if (attempts++ < 50) setTimeout(tryRender, 100);
+        return;
+      }
+      if (!turnstileRef.current || widgetIdRef.current !== null) return;
+      widgetIdRef.current = window.turnstile.render(turnstileRef.current, {
+        sitekey: TURNSTILE_SITE_KEY,
+        theme: 'auto',
+        size: 'normal',
+      });
+    };
+    tryRender();
+
+    return () => {
+      cancelled = true;
+      if (widgetIdRef.current !== null && window.turnstile) {
+        try { window.turnstile.remove(widgetIdRef.current); } catch (_) {}
+        widgetIdRef.current = null;
+      }
+    };
+  }, [TURNSTILE_SITE_KEY]);
+
+  const safeTurnstileReset = () => {
+    if (widgetIdRef.current !== null && window.turnstile) {
+      try { window.turnstile.reset(widgetIdRef.current); } catch (_) {}
+    }
+  };
 
   const validate = () => {
     const e = {};
@@ -49,7 +85,14 @@ export const ContactSection = () => {
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setErrors({});
 
-    const turnstileToken = window.turnstile?.getResponse() || '';
+    let turnstileToken = '';
+    try {
+      if (widgetIdRef.current !== null && window.turnstile) {
+        turnstileToken = window.turnstile.getResponse(widgetIdRef.current) || '';
+      }
+    } catch (_) {
+      turnstileToken = '';
+    }
     if (!turnstileToken) {
       setSubmitError('Please complete the bot check before sending.');
       return;
@@ -69,11 +112,11 @@ export const ContactSection = () => {
       }
       setStatus('sent');
       setFields({ name: '', email: '', message: '' });
-      window.turnstile?.reset();
+      safeTurnstileReset();
     } catch (err) {
       setStatus('idle');
       setSubmitError(err.message || 'Something went wrong. Please try again.');
-      window.turnstile?.reset();
+      safeTurnstileReset();
     }
   };
 
@@ -184,7 +227,7 @@ export const ContactSection = () => {
               {errors.message && <span style={{ color: '#ef4444', fontSize: '0.75rem' }}>{errors.message}</span>}
             </div>
 
-            <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} style={{ marginTop: '0.25rem' }} />
+            <div ref={turnstileRef} style={{ marginTop: '0.25rem', minHeight: '65px', display: 'flex', justifyContent: 'center' }} />
 
             {submitError && (
               <div

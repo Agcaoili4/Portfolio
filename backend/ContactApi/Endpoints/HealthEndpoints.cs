@@ -11,8 +11,12 @@ public static class HealthEndpoints
             .WithName("HealthCheck")
             .WithTags("Health");
 
-        app.MapGet("/api/health/ready", async (AppDbContext db, CancellationToken ct) =>
+        app.MapGet("/api/health/ready", async (
+            AppDbContext db,
+            ILoggerFactory loggerFactory,
+            CancellationToken ct) =>
         {
+            var logger = loggerFactory.CreateLogger("HealthCheck");
             try
             {
                 await db.Database.ExecuteSqlRawAsync("SELECT 1", ct);
@@ -20,9 +24,11 @@ public static class HealthEndpoints
             }
             catch (Exception ex)
             {
-                return Results.Json(
-                    new { ok = false, db = "down", error = ex.Message },
-                    statusCode: 503);
+                // Log the detail server-side; never return the exception to the
+                // caller, which would leak connection string fragments (host,
+                // port, role) to anyone polling the endpoint.
+                logger.LogError(ex, "Readiness probe failed: database not reachable");
+                return Results.Json(new { ok = false, db = "down" }, statusCode: 503);
             }
         })
         .WithName("ReadinessCheck")

@@ -31,7 +31,10 @@ public class ContactService(
 
         db.ContactSubmissions.Add(entity);
         await db.SaveChangesAsync(ct);
-        logger.LogInformation("Submission {SubmissionId} persisted for {Email}", entity.Id, entity.Email);
+        // Log the SubmissionId only; the visitor's email is PII that doesn't
+        // belong in third-party log retention (Render). The email is in the
+        // DB row keyed by SubmissionId if a future investigation needs it.
+        logger.LogInformation("Submission {SubmissionId} persisted", entity.Id);
 
         try
         {

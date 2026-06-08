@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useReveal } from '../lib/useReveal';
+import { PrivacyPolicy } from './privacyPolicy';
 
 const socials = [
   {
@@ -28,6 +29,7 @@ export const ContactSection = () => {
   const [fields, setFields] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState('');
+  const [showPrivacy, setShowPrivacy] = useState(false);
   const turnstileRef = useRef(null);
   const widgetIdRef = useRef(null);
 
@@ -169,12 +171,6 @@ export const ContactSection = () => {
             </div>
             <p style={{ color: 'var(--text)', fontWeight: 600, fontSize: '1.125rem', fontFamily: 'Archivo, sans-serif' }}>Message Sent!</p>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Thanks for reaching out — I'll get back to you soon.</p>
-            <button
-              onClick={() => setStatus('idle')}
-              style={{ color: 'var(--text-accent)', fontSize: '0.875rem', fontWeight: 500, background: 'none', border: 'none', cursor: 'pointer', marginTop: '0.25rem' }}
-            >
-              Send another
-            </button>
           </div>
         ) : (
           <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
@@ -245,6 +241,18 @@ export const ContactSection = () => {
               </div>
             )}
 
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', textAlign: 'center', marginTop: '0.25rem', lineHeight: 1.5 }}>
+              By submitting this form, you agree to the{' '}
+              <button
+                type="button"
+                onClick={() => setShowPrivacy(true)}
+                style={{ color: 'var(--text-accent)', textDecoration: 'underline', background: 'none', border: 'none', padding: 0, cursor: 'pointer', font: 'inherit' }}
+              >
+                Privacy Policy
+              </button>
+              .
+            </p>
+
             <button
               type="submit"
               disabled={status === 'sending'}
@@ -261,8 +269,19 @@ export const ContactSection = () => {
                 </>
               ) : 'Send Message'}
             </button>
+
+            {status === 'sending' && (
+              <p
+                aria-live="polite"
+                style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', textAlign: 'center', marginTop: '-0.25rem' }}
+              >
+                This may take a few seconds while we verify and send your message.
+              </p>
+            )}
           </form>
         )}
+
+        <PrivacyPolicy open={showPrivacy} onClose={() => setShowPrivacy(false)} />
 
         {/* Socials */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>

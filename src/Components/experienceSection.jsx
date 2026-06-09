@@ -460,7 +460,7 @@ const ExperienceCard = ({ exp, slot, isActive, isClone, isExpanded, onToggle, is
                 <span
                   key={t}
                   style={{
-                    padding: '0.25rem 0.7rem',
+                    padding: '0.25rem 0.625rem',
                     borderRadius: '0.375rem',
                     fontSize: '0.75rem',
                     fontWeight: 500,

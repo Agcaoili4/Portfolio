@@ -1654,13 +1654,15 @@ a {
     width: auto;
   }
   .hero-ctas .cta-btn,
+  .hero-ctas .cta-primary,
   .hero-ctas .cta-accent {
     width: auto;
     padding: 0.55rem 1.1rem !important;
     font-size: 0.82rem !important;
     gap: 0.4rem !important;
   }
-  .hero-ctas .cta-btn svg {
+  .hero-ctas .cta-btn svg,
+  .hero-ctas .cta-primary svg {
     width: 13px;
     height: 13px;
   }
@@ -2273,7 +2275,7 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.875rem 1.75rem;
+  padding: 0.875rem 2rem;
   border-radius: 9999px;
   background: #ffffff;
   color: #0b0f1a;
